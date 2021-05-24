@@ -5,6 +5,7 @@ import content from '../components/Content';
 import list from '../components/List';
 import label from '../components/Label';
 import guide from '../components/guide'
+import confirm from "../components/confirm";
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ export default new Router({
             path: '/guide',
             name: 'Guide',
             component: guide
+        },
+        {
+            path: '/confirm',
+            name: 'Confirm',
+            component: confirm
         }
     ]
 })

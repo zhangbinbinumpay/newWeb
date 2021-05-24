@@ -1,6 +1,6 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 40px;width: 80%;display: flex;justify-content: flex-end">
+    <div style="height: 40px;width: 80%;display: flex;justify-content: flex-end" @click="onCancel">
       <img style="width: 26px;height: 26px"
            src="../../assets/images/close@2x.png">
     </div>
@@ -84,7 +84,7 @@
   }
 
   .popout_box_bot {
-    width: 80%;
+    width: 85%;
     height: 80%;
     padding-top: 10px;
     /*display: flex;*/
@@ -97,9 +97,12 @@
     /*width: 85%;*/
     /*height: 75%;*/
     list-style-type:disc;
-    background-color: #E6E6E6;
+    list-style-position: inside;
+    /*background-color: #E6E6E6;*/
     width: 100%;
-    line-height: 30px;
-    border: 1px solid #dddddd;
+    color: #0A5669;
+    padding-top: 10px;
+    /*line-height: 30px;*/
+    /*border: 1px solid #dddddd;*/
   }
 </style>

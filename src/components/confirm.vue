@@ -1,14 +1,30 @@
 <template>
-  <div class="hello_guide">
+  <div class="hello_confirm">
     <div class="main-content">
-      <div :class="[content_image,activeButtonState?content_image_background:content_disable_image_background]" @click="confimActive">
-        <p>
-          开启新任务
-        </p></div>
-      <p class="task-date">任务需在<span class="task-date-detail">{{ taskDate }}</span>之间开启哦</p>
+
+      <p class="task-date">你的新用户任务期：<span class="task-date-detail">{{ taskDate }}</span></p>
       <button class="task-button" @click="onClickRule"><img style="width: 10px"
                                                             src="../assets/images/question-circle-fill@2x.png">活动规则
       </button>
+    </div>
+    <div class="reward-view">
+      <p class="reward-amount">已获得任务奖励<span>{{ rewardAmount }}</span>元</p>
+    </div>
+
+    <div class="schedule-view">
+      <div v-for="(item, index) in scheduleList" style="display: flex;align-items: center">
+        <div style="height: 45px;margin-left: 1px;display: flex;
+    flex-direction: row;align-items: center;">
+          <div style="width: 55px;color: #004F63;text-align: right;font-size: 10px;transform: scale(0.8)">{{ item.name }}</div>
+          <div style="width: 10px;height: 10px;background: #CBEAEE;border-radius: 5px;margin-left: 4px"></div>
+        </div>
+        <div v-show="index != 0"
+             style="position: absolute; width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: 64px;margin-top:-32px;"></div>
+
+        <div v-show="index != 3"
+             style="width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: -6px;margin-top: 32px;"></div>
+      </div>
+
     </div>
     <RulePopout v-show="isPrpout" v-on:cancel="onCancel"/>
   </div>
@@ -18,7 +34,7 @@
 import RulePopout from "./comment/RulePopout";
 
 export default {
-  name: 'Guide',
+  name: 'Confirm',
   data() {
     return {
       contents: {},
@@ -26,11 +42,14 @@ export default {
       taskDate: '2021年6月1日至2021年7月1日',
       isPrpout: false,
       activeButtonState: true,/*活动禁用开关*/
-      content_image: 'content-image',
-      content_image_background: 'content-image-background',
-      content_disable_image_background: 'content-disable-image-background',
-      confirmAactiveSuccess: false
-
+      confirmAactiveSuccess: false,
+      rewardAmount: '1000',
+      scheduleList: [
+        {name: '接单', allmount: '1000', currentamount: '50'},
+        {name: '简历过筛', allmount: '1000', currentamount: '50'},
+        {name: '完成面试', allmount: '1000', currentamount: '50'},
+        {name: '发放offer', allmount: '1000', currentamount: '50'},
+      ]
     }
   },
   mounted() {
@@ -61,7 +80,6 @@ export default {
     //开启活动
     confimActive() {
       this.confirmAactiveSuccess = true;
-      this.$router.push({path: `/confirm`});
     },
 
   },
@@ -72,8 +90,8 @@ export default {
 </script>
 
 <style scoped>
-.hello_guide {
-  background-image: url("../assets/images/yemian1.png");
+.hello_confirm {
+  background-image: url("../assets/images/yemian2.png");
   background-repeat: no-repeat;
   min-height: 780px;
   overflow: scroll;
@@ -82,13 +100,11 @@ export default {
   justify-content: center;
   width: 100%;
   background-size: 100% 100%;
-  /*background-position-x: center;*/
-  /*background-position-y: center;*/
 }
 
 .main-content {
   position: absolute;
-  margin-top: 29rem;
+  margin-top: 37rem;
   height: 68px;
   width: 180px;
   display: flex;
@@ -97,35 +113,24 @@ export default {
   align-items: center;
 }
 
-.content-image {
-  width: 100%;
-  height: 30px;
-  margin-top: 5px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position-x: center;
-  background-position-y: center;
-  justify-content: center;
-  align-items: center;
+.reward-view {
+  position: absolute;
+  margin-top: 45rem;
+  height: 36px;
+  width: 50%;
+  background: #14AEAB;
+  border-radius: 6px 6px 0px 0px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.content-image-background {
-  background-image: url("../assets/images/button.png");
-  font-size: 12px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  /*font-weight: 500;*/
-  color: #AB5700;
-  line-height: 46px;
-}
-
-.content-disable-image-background {
-  background-image: url("../assets/images/button_disable@2x.png");
-  font-size: 12px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  /*font-weight: 500;*/
-  color: #8C8C8C;
-  line-height: 46px;
+.schedule-view {
+  position: absolute;
+  margin-top: 49rem;
+  height: 180px;
+  width: 50%;
+  background: red;
 }
 
 .content-image p {
@@ -134,6 +139,26 @@ export default {
   /*font-weight: 500;*/
   /*color: #AB5700;*/
   line-height: 46px;
+}
+
+.reward-amount {
+  font-size: 8px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  /*font-weight: 500;*/
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  /*transform: scale(0.6)*/
+}
+
+.reward-amount span {
+  font-size: 8px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  /*font-weight: 500;*/
+  color: #FEFF00;
+  overflow: hidden;
+  white-space: nowrap;
+  /*transform: scale(0.6)*/
 }
 
 .task-date {
