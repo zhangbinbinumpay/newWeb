@@ -14,7 +14,7 @@ import './assets/js/bootstrap.min'
 import './assets/css/bootstrap.min.css'
 import './assets/css/font-awesome.min.css'
 import './assets/css/style.css'
-import '../static/editor.md/css/editormd.css'
+
 //import './assets/js/nprogress.js'
 // import './assets/js/respond.min.js'
 // import './assets/js/selectivizr-min.js'
