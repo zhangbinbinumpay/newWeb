@@ -15,14 +15,33 @@
       <div v-for="(item, index) in scheduleList" style="display: flex;align-items: center">
         <div style="height: 45px;margin-left: 1px;display: flex;
     flex-direction: row;align-items: center;">
-          <div style="width: 55px;color: #004F63;text-align: right;font-size: 10px;transform: scale(0.8)">{{ item.name }}</div>
+          <div style="width: 55px;color: #004F63;text-align: right;font-size: 10px;transform: scale(0.8)">{{
+              item.name
+            }}
+          </div>
           <div style="width: 10px;height: 10px;background: #CBEAEE;border-radius: 5px;margin-left: 4px"></div>
         </div>
-        <div v-show="index != 0"
-             style="position: absolute; width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: 64px;margin-top:-32px;"></div>
+<!--        <div style="position: relative;background-color: red">-->
+          <div v-show="index != 0"
+               style="position: absolute; width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: 64px;margin-top:-32px;"></div>
 
-        <div v-show="index != 3"
-             style="width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: -6px;margin-top: 32px;"></div>
+          <div v-show="index != 3"
+               style="position: absolute;width: 2px;height: 13px;background: rgb(203, 234, 238);margin-left: 64px;margin-top: 32px;"></div>
+<!--        </div>-->
+
+        <!--进度条视图-->
+        <div
+            style="width: 80%;height: 100%;text-align: center; margin: 0 auto;display: flex;flex-direction: row;align-items: center;    padding-left: 10px;
+    padding-right: 20px;">
+          <my-process style="width: 75px;" :brd-rs="10" :pcs-height="14" process-dept="10" bg-color="#E6A23C"
+                      :show-striped="true"
+                      :show-act="true"/>
+          <div class="rightImage">
+            <img style="width: 20px"
+                 src="../assets/images/redpackge.png">
+            <p> 2000元</p>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -32,6 +51,7 @@
 
 <script>
 import RulePopout from "./comment/RulePopout";
+import myProcess from './comment/myProgress';
 
 export default {
   name: 'Confirm',
@@ -84,7 +104,8 @@ export default {
 
   },
   components: {
-    RulePopout
+    RulePopout,
+    myProcess
   },
 }
 </script>
@@ -130,7 +151,7 @@ export default {
   margin-top: 49rem;
   height: 180px;
   width: 50%;
-  background: red;
+  /*background: red;*/
 }
 
 .content-image p {
@@ -181,5 +202,28 @@ export default {
   font-size: 8px;
   color: #14AEAB;
   transform: scale(0.6)
+}
+
+.rightImage {
+  width: 50px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-x: center;
+  background-position-y: center;
+  position:relative;
+}
+.rightImage p{
+  bottom: 0px;
+  font-size: 8px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  /*font-weight: 500;*/
+  color: #004F63;
+  /*overflow: hidden;*/
+  white-space: nowrap;
+  position: absolute;
+  width: 100%;
+  transform: scale(0.6);
+
 }
 </style>
