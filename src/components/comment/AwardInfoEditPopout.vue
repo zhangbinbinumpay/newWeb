@@ -71,7 +71,23 @@ export default {
     //确认提交
     confirmPost() {
       console.log('bankCard:%s', this.bankCard);
-      this.$emit('click', "取消111")
+      if (this.bankCard.length < 16) {
+        this.$g_toast('银行卡号不正确');
+        return;
+      }
+      if (this.userName.length < 2) {
+        this.$g_toast('姓名不正确');
+        return;
+      }
+      if (this.idCardNo.length < 16) {
+        this.$g_toast('身份证号不正确');
+        return;
+      }
+      if (this.sendCode.length < 6) {
+        this.$g_toast('验证码不正确');
+        return;
+      }
+      this.$emit('click', [this.bankCard, this.userName, this.idCardNo, this.sendCode].concat('-'))
     }
   },
   components: {

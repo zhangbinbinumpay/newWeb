@@ -1,7 +1,7 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 40px;width: 80%;display: flex;justify-content: flex-end" @click="onCancel">
-      <img style="width: 26px;height: 26px"
+    <div style="height: 20px;width: 20rem;display: flex;justify-content: flex-end" @click="onCancel">
+      <img style="width: 20px;height: 20px"
            src="../../assets/images/close@2x.png">
     </div>
     <div class="popout_box">
@@ -60,12 +60,12 @@
   }
 
   .popout_box {
-    width: 80%;
-    height: 55%;
+    width: 20rem;
+    height: 20rem;
     /*background-color: red;*/
     background-image: url("../../assets/images/rule_background@2x.png");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 100% 100%;
     background-position-x: center;
     background-position-y: center;
     display: flex;
@@ -87,22 +87,15 @@
     width: 85%;
     height: 80%;
     padding-top: 10px;
-    /*display: flex;*/
-    /*justify-content: space-evenly;*/
-    /*align-items: center;*/
-    overflow: scroll;
+    overflow: auto;
   }
 
   .popout_box_bot li {
-    /*width: 85%;*/
-    /*height: 75%;*/
     list-style-type:disc;
     list-style-position: inside;
-    /*background-color: #E6E6E6;*/
     width: 100%;
     color: #0A5669;
     padding-top: 10px;
-    /*line-height: 30px;*/
-    /*border: 1px solid #dddddd;*/
+    font-size: 10px;
   }
 </style>

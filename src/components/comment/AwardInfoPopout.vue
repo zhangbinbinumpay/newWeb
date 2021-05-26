@@ -15,19 +15,24 @@
         <div style="height: 200px;display: flex;flex-direction: column;align-items: center;margin-top: 20px">
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="银行卡号" placeholder="请填写本人银行卡号"
                   type="bankcard"
-                  inputBorder="all" labelPosition="right" v-model="bankCard" @inputclear="bankCard = $event.clear"></uinput>
+                  inputBorder="all" labelPosition="right" v-model="bankCard"
+                  @inputclear="bankCard = $event.clear"></uinput>
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="姓名" placeholder="请填写本人真实姓名"
-                  inputBorder="all" labelPosition="right" v-model="userName" @inputclear="userName = $event.clear"></uinput>
+                  inputBorder="all" labelPosition="right" v-model="userName"
+                  @inputclear="userName = $event.clear"></uinput>
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="身份证号" placeholder="请填写本人身份证号"
                   type="idcard"
-                  inputBorder="all" labelPosition="right" v-model="idCardNo" @inputclear="idCardNo = $event.clear"></uinput>
+                  inputBorder="all" labelPosition="right" v-model="idCardNo"
+                  @inputclear="idCardNo = $event.clear"></uinput>
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="禾蛙账号"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
-                  defaultValue="13312341234"></uinput>
+                  :defaultValue="userPhone"></uinput>
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="验证码" placeholder="请填写验证码"
                   type="msgcode"
                   :send="true"
-                  inputBorder="all" labelPosition="right" v-model="sendCode" @inputclear="sendCode = $event.clear"></uinput>
+                  inputBorder="all" labelPosition="right" v-model="sendCode"
+                  :@counting="authCode"
+                  @inputclear="sendCode = $event.clear"></uinput>
         </div>
         <div style="width: 100%; display: flex;justify-content: center;margin-top: 20px">
           <div class="reward_achieve" @click="confirmPost">
@@ -46,6 +51,12 @@
 import uinput from "./uinput";
 
 export default {
+  props: {
+    userPhone: {
+      type: String
+    }
+  },
+
   data() {
     return {
       isPrpout: true,
@@ -66,8 +77,48 @@ export default {
     },
     //确认提交
     confirmPost() {
-      console.log('bankCard:%s', this.bankCard);
-    }
+      if (this.bankCard.length < 16) {
+        this.$g_toast('银行卡号不正确');
+        return;
+      }
+      if (this.userName.length < 2) {
+        this.$g_toast('姓名不正确');
+        return;
+      }
+      if (this.idCardNo.length < 16) {
+        this.$g_toast('身份证号不正确');
+        return;
+      }
+      if (this.sendCode.length < 5) {
+        this.$g_toast('验证码不正确');
+        return;
+      }
+      this.$emit('click', [this.bankCard, this.userName, this.idCardNo, this.sendCode].concat('-'))
+    },
+    //发送手机验证码
+    authCode() {
+      this.$g_loadingShow('数据加载中');
+      let url = "act/api/v1/web/authCode";
+      this.getRequest(url, this.userData).then(res => {
+        this.$g_loadingHide();
+        console.log('res.data:' + JSON.stringify(res));
+        let respnseData = res.data;
+        if (respnseData) {
+          let status = respnseData.status;
+          if (status.code === 200) {
+            this.userAccount = res.data.data;
+          } else {
+            this.$g_toast(status.detail);
+          }
+        } else {
+//请求错误
+        }
+
+      }).catch(err => {
+        console.log('er1r:' + err);
+        this.$g_loadingHide();
+      });
+    },
   },
   components: {
     uinput

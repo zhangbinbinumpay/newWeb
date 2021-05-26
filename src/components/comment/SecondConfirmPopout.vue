@@ -1,6 +1,6 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 30px;width: 32%;display: flex;justify-content: flex-end" @click="onCancel">
+    <div style="height: 20px;width: 32%;display: flex;justify-content: flex-end" @click="onCancel">
       <img style="width: 20px;height: 20px"
            src="../../assets/images/close@2x.png">
     </div>

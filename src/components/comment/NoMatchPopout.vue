@@ -6,7 +6,7 @@
 
       <div class="popout_box_bot">
         <div style="width: 100%;display: flex;justify-content: center">
-          <img style="width: 26px;height: 26px"
+          <img style="width: 20px;height: 20px"
                src="../../assets/images/info-circle@2x.png">
         </div>
         <div style="width: 100%;display: flex;justify-content: center;flex-direction: column">
@@ -94,7 +94,7 @@
     width: 85%;
     height: 80%;
     padding-top: 10px;
-    overflow: scroll;
+    /*overflow: scroll;*/
   }
 
   .popout_box_bot li {

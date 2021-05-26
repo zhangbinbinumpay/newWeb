@@ -13,8 +13,14 @@
          :style="{
            width: processDept + '%',
            backgroundColor: bgColor,
-           color: txtColor
+           color: txtColor,
          }">
+      <img :style="{
+           width: '15px',
+           position: 'absolute',
+           left: processDept > 0?'':'80px'
+         }"
+           src="../../assets/images/ellipse.png">
       <span :class="{showTxt: 'hidden-txt'}">{{ txt }}</span>
     </div>
 
@@ -91,6 +97,7 @@ export default {
   margin: 0 auto;
 
   &-bar {
+    background-image: url("../../assets/images/ver_line.png");
     float: left;
     width: 0;
     height: 100%;
@@ -104,13 +111,16 @@ export default {
     -webkit-transition: width .6s ease;
     -o-transition: width .6s ease;
     transition: width .6s ease;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 
     &-striped {
       background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
       background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
       background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-      -webkit-background-size: 40px 40px;
-      background-size: 40px 40px;
+      -webkit-background-size: 10px 10px;
+      background-size: 10px 10px;
     }
 
     &-active {
