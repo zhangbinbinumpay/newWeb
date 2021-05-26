@@ -31,7 +31,7 @@
                   type="msgcode"
                   :send="true"
                   inputBorder="all" labelPosition="right" v-model="sendCode"
-                  :@counting="authCode"
+                  v-on:counting="authCode"
                   @inputclear="sendCode = $event.clear"></uinput>
         </div>
         <div style="width: 100%; display: flex;justify-content: center;margin-top: 20px">
