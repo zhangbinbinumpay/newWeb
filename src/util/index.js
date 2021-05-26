@@ -155,9 +155,11 @@ function isIOS() {
 
 // 本地存储localStorage
 var storage = window.localStorage;
+
 function getStorage(key) {
     return JSON.parse(storage[key])//得到的是处理过的对象
 }
+
 function getAllStorage(origin, type) {
     var vuexState = {};
     var localState = null;
@@ -179,6 +181,7 @@ function getAllStorage(origin, type) {
     });
     return needParams;
 }
+
 function setStorage(key, val) {
     if (typeof val === 'object') {//所有对象数据存成json字符串的形式
         storage[key] = JSON.stringify(val)
@@ -236,17 +239,61 @@ function getUrlParam(name) {
 // 解决页面弹窗引起的滚动穿透问题
 function setHtmlScroll(v, flag) {
     // 禁止页面滚动
-    if(flag) {
+    if (flag) {
         v.curPos = document.documentElement.scrollTop || document.body.scrollTop;
         document.querySelector('.container').style.position = 'fixed';
         document.querySelector('.container').style.top = -v.curPos + 'px';
     }
     // 允许页面滚动
-    if(!flag) {
+    if (!flag) {
         document.querySelector('.container').style.position = 'static';
         document.querySelector('.container').style.top = 'auto';
         window.scrollTo(0, v.curPos);
     }
+}
+
+/**
+ * for vue: 日期格式化
+ **/
+function dateFormat(value, format) {
+    if (typeof (value) == "undefined" || value == null || value == '') {
+        return value;
+    }
+    var date = new Date(value);
+    format = format || 'yyyy-MM-dd';
+    var o = {
+        "M+": date.getMonth() + 1, //month
+        "d+": date.getDate(), //day
+        "h+": date.getHours(), //hour
+        "m+": date.getMinutes(), //minute
+        "s+": date.getSeconds(), //second
+        "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+        "S": date.getMilliseconds() //millisecond
+    }
+    if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
+        (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(format))
+            format = format.replace(RegExp.$1,
+                RegExp.$1.length == 1 ? o[k] :
+                    ("00" + o[k]).substr(("" + o[k]).length));
+    return format;
+}
+
+/**
+ * for vue: 日期格式化 年-月-日
+ **/
+function dateFormatStr(value) {
+    if (typeof (value) == "undefined" || value == null || value == '') {
+        return value;
+    }
+    var date = new Date(value);
+    var format = '';
+    var year = date.getFullYear() + '年';
+    var month = date.getMonth() + 1 + '月';
+    var day = date.getDate() + '日';
+    format = [year, month, day].join('');
+    return format;
 }
 
 export default {
@@ -263,5 +310,7 @@ export default {
     isWeixin,
     isIOS,
     getUrlParam,
-    setHtmlScroll
+    setHtmlScroll,
+    dateFormat,
+    dateFormatStr
 }
