@@ -10,13 +10,13 @@
                src="../../assets/images/info-circle@2x.png">
         </div>
         <div style="width: 100%;display: flex;justify-content: center;flex-direction: column">
-          <p style="color: #0A5669;width: 100%;text-align: center;font-size: 12px">
+          <div style="color: #0A5669;text-align: center;font-size: 12px;transform: scale(0.8);white-space: nowrap;">
             小蛙发现你不具备参与活动的资格哦~
-          </p>
-          <p style="color: #FE750A;width: 100%;text-align: center;font-size: 12px">
+          </div>
+          <p style="color: #FE750A;width: 100%;text-align: center;font-size: 12px;transform: scale(0.8)">
             所在猎企需要有3名以上顾问
           </p>
-          <p style="color: #0A5669;text-align: center;font-size: 12px">
+          <p style="color: #0A5669;text-align: center;font-size: 12px;transform: scale(0.8)">
             且本人<span style="color: #FE750A">从未接过单</span>才可开启新用户任务
           </p>
         </div>

@@ -9,31 +9,29 @@
       </div>
 
       <div class="popout_box_bot">
-        <p style="color: #0A5669;font-size: 10px;transform: scale(0.9);white-space: nowrap;">
-          请填写下方信息，我们将在新用户任务全部结束后发放奖励~
-        </p>
         <div style="height: 200px;display: flex;flex-direction: column;align-items: center;margin-top: 20px">
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="银行卡号" placeholder="请填写本人银行卡号"
-                  type="bankcard"
-                  inputBorder="all" labelPosition="right" v-model="bankCard" @inputclear="bankCard = $event.clear"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="姓名" placeholder="请填写本人真实姓名"
-                  inputBorder="all" labelPosition="right" v-model="userName" @inputclear="userName = $event.clear"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="身份证号" placeholder="请填写本人身份证号"
-                  type="idcard"
-                  inputBorder="all" labelPosition="right" v-model="idCardNo" @inputclear="idCardNo = $event.clear"></uinput>
+          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="银行卡号"
+                  disabled="disabled" type="label" inputBorder="none" labelPosition="right"
+                  defaultValue="13312341234"></uinput>
+          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="姓名"
+                  disabled="disabled" type="label" inputBorder="none" labelPosition="right"
+                  defaultValue="13312341234"></uinput>
+          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="身份证号"
+                  disabled="disabled" type="label" inputBorder="none" labelPosition="right"
+                  defaultValue="13312341234"></uinput>
           <uinput style="height: 40px;width: 280px" :onlyInput="false" label="禾蛙账号"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
                   defaultValue="13312341234"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="验证码" placeholder="请填写验证码"
-                  type="msgcode"
-                  :send="true"
-                  inputBorder="all" labelPosition="right" v-model="sendCode" @inputclear="sendCode = $event.clear"></uinput>
         </div>
         <div style="width: 100%; display: flex;justify-content: center;margin-top: 20px">
-          <div class="reward_achieve" @click="confirmPost">
-            <p>确认提交
+          <div v-if="canEditInfo" class="reward_achieve" @click="confirmPost">
+            <p>修改信息
             </p>
 
+          </div>
+          <div v-else>
+            <p style="color: #FE750A">任务期已结束，请耐心等待奖励发放！
+            </p>
           </div>
         </div>
       </div>
@@ -46,6 +44,12 @@
 import uinput from "./uinput";
 
 export default {
+  props: {
+    canEditInfo: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       isPrpout: true,
@@ -67,6 +71,7 @@ export default {
     //确认提交
     confirmPost() {
       console.log('bankCard:%s', this.bankCard);
+      this.$emit('click', "取消111")
     }
   },
   components: {
@@ -106,7 +111,7 @@ export default {
 .popout_box_top {
   width: 90%;
   height: 12%;
-  background-image: url("../../assets/images/award_mark@2x.png");
+  background-image: url("../../assets/images/lyxinxi@2x.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position-x: center;
