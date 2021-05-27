@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import guide from '../components/guide'
 import confirm from "../components/confirm";
 import home from "../components/home";
+import baichang from "../components/baichang";
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
             path: '/confirm',
             name: 'confirm',
             component: confirm
+        },
+        {
+            path: '/baichang',
+            name: 'baichang',
+            component: baichang
         }
     ]
 })
