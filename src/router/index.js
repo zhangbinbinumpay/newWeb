@@ -3,10 +3,12 @@ import Router from 'vue-router'
 import guide from '../components/guide'
 import confirm from "../components/confirm";
 import home from "../components/home";
+
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
+    mode: 'history',//history、hash
+    base: 'exclusive',
     routes: [
         {path: '/', redirect: 'home'},
         {

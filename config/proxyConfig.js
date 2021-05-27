@@ -1,5 +1,5 @@
 let devurl = 'http://47.95.9.162/';
-let productionurl = 'http://47.95.9.162/';
+let productionurl = 'http://activitytest.hewa.cn/';
 
 module.exports = {
     proxy: {

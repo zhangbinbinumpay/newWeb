@@ -104,7 +104,7 @@
             }
             this.userData['userId'] = this.userData.user_id;
             this.userData['actId'] = this.userData.act_id;
-            console.log('userData1:' + JSON.stringify(this.userData));
+            // console.log('userData1:' + JSON.stringify(this.userData));
 
             this.queryDetail();
         },

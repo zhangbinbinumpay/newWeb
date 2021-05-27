@@ -27,7 +27,7 @@
         },
         methods: {
             home() {
-                console.log('userData1:' + JSON.stringify(this.userData));
+                // console.log('userData1:' + JSON.stringify(this.userData));
                 this.$g_loadingShow('数据加载中');
                 let url = "/act/api/v1/web/getActOpenStatus";
                 this.getRequest(url, this.userData).then(res => {
