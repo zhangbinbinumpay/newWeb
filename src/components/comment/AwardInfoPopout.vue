@@ -48,154 +48,164 @@
 
 <script>
 
-import uinput from "./uinput";
+    import uinput from "./uinput";
 
-export default {
-  props: {
-    userPhone: {
-      type: String
-    }
-  },
+    export default {
+        props: {
+            userPhone: {
+                type: String
+            },
+            user_id: {
+                type: String
+            },
+            token: {
+                type: String
+            }
+        },
 
-  data() {
-    return {
-      isPrpout: true,
-      bankCard: '',
-      userName: '',
-      idCardNo: '',
-      sendCode: ''
-    }
-  },
-  methods: {
-    //  点击确定
-    onConfirm() {
-      this.$emit('confirm', "确定111")
-    },
-    // 点击取消
-    onCancel() {
-      this.$emit('cancel', "取消111")
-    },
-    //确认提交
-    confirmPost() {
-      if (this.bankCard.length < 16) {
-        this.$g_toast('银行卡号不正确');
-        return;
-      }
-      if (this.userName.length < 2) {
-        this.$g_toast('姓名不正确');
-        return;
-      }
-      if (this.idCardNo.length < 16) {
-        this.$g_toast('身份证号不正确');
-        return;
-      }
-      if (this.sendCode.length < 5) {
-        this.$g_toast('验证码不正确');
-        return;
-      }
-      this.$emit('click', [this.bankCard, this.userName, this.idCardNo, this.sendCode].concat('-'))
-    },
-    //发送手机验证码
-    authCode() {
-      this.$g_loadingShow('数据加载中');
-      let url = "act/api/v1/web/authCode";
-      this.getRequest(url, this.userData).then(res => {
-        this.$g_loadingHide();
-        console.log('res.data:' + JSON.stringify(res));
-        let respnseData = res.data;
-        if (respnseData) {
-          let status = respnseData.status;
-          if (status.code === 200) {
-            this.userAccount = res.data.data;
-          } else {
-            this.$g_toast(status.detail);
-          }
-        } else {
-//请求错误
+        data() {
+            return {
+                isPrpout: true,
+                bankCard: '',
+                userName: '',
+                idCardNo: '',
+                sendCode: ''
+            }
+        },
+        methods: {
+            //  点击确定
+            onConfirm() {
+                this.$emit('confirm', "确定111")
+            },
+            // 点击取消
+            onCancel() {
+                this.$emit('cancel', "取消111")
+            },
+            //确认提交
+            confirmPost() {
+                if (this.bankCard.length < 16) {
+                    this.$g_toast('银行卡号不正确');
+                    return;
+                }
+                if (this.userName.length < 2) {
+                    this.$g_toast('姓名不正确');
+                    return;
+                }
+                if (this.idCardNo.length < 16) {
+                    this.$g_toast('身份证号不正确');
+                    return;
+                }
+                if (this.sendCode.length < 5) {
+                    this.$g_toast('验证码不正确');
+                    return;
+                }
+                this.$emit('click', [this.bankCard, this.userName, this.idCardNo, this.sendCode].join('-'))
+            },
+            //发送手机验证码
+            authCode() {
+                this.$g_loadingShow('数据加载中');
+                let url = "act/api/v1/web/authCode";
+                var requestParam = {};
+                requestParam['mobile'] = this.userPhone;
+                requestParam['mobile'] = this.token;
+                requestParam['user_id'] = this.user_id;
+                this.getRequest(url, this.requestParam).then(res => {
+                    this.$g_loadingHide();
+                    console.log('res.data:' + JSON.stringify(res));
+                    let respnseData = res.data;
+                    if (respnseData) {
+                        let status = respnseData.status;
+                        if (status.code === 200) {
+                            this.userAccount = res.data.data;
+                        } else {
+                            this.$g_toast(status.detail);
+                        }
+                    } else {
+                        //请求错误
+                    }
+
+                }).catch(err => {
+                    console.log('er1r:' + err);
+                    this.$g_loadingHide();
+                });
+            },
+        },
+        components: {
+            uinput
         }
-
-      }).catch(err => {
-        console.log('er1r:' + err);
-        this.$g_loadingHide();
-      });
-    },
-  },
-  components: {
-    uinput
-  }
-}
+    }
 </script>
 
 <style scoped>
-.popout {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+  .popout {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 
-.popout_box {
-  width: 80%;
-  height: 55%;
-  /*background-color: red;*/
-  background-image: url("../../assets/images/rule_background@2x.png");
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-size: 100% 100%;
-}
+  .popout_box {
+    width: 80%;
+    height: 55%;
+    /*background-color: red;*/
+    background-image: url("../../assets/images/rule_background@2x.png");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-size: 100% 100%;
+  }
 
-.popout_box_top {
-  width: 90%;
-  height: 12%;
-  background-image: url("../../assets/images/award_mark@2x.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position-x: center;
-}
+  .popout_box_top {
+    width: 90%;
+    height: 12%;
+    background-image: url("../../assets/images/award_mark@2x.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: center;
+  }
 
-.popout_box_bot {
-  width: 85%;
-  height: 80%;
-  padding-top: 10px;
-  /*overflow: scroll;*/
-}
+  .popout_box_bot {
+    width: 85%;
+    height: 80%;
+    padding-top: 10px;
+    /*overflow: scroll;*/
+  }
 
-.popout_box_bot li {
-  list-style-type: disc;
-  list-style-position: inside;
-  width: 100%;
-  color: #0A5669;
-  padding-top: 10px;
-  /*line-height: 30px;*/
-  /*border: 1px solid #dddddd;*/
-}
+  .popout_box_bot li {
+    list-style-type: disc;
+    list-style-position: inside;
+    width: 100%;
+    color: #0A5669;
+    padding-top: 10px;
+    /*line-height: 30px;*/
+    /*border: 1px solid #dddddd;*/
+  }
 
-.reward_achieve {
-  width: 80px;
-  height: 30px;
-  background: linear-gradient(180deg, #FDD45E 0%, #FDD45E 38%, #FEC84F 100%);
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
+  .reward_achieve {
+    width: 80px;
+    height: 30px;
+    background: linear-gradient(180deg, #FDD45E 0%, #FDD45E 38%, #FEC84F 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
 
-}
+  }
 
-.reward_achieve p {
-  font-size: 12px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  color: #AB5700;
-  overflow: hidden;
-  margin: 0 auto;
-  /*transform: scale(0.8)*/
-}
+  .reward_achieve p {
+    font-size: 12px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    color: #AB5700;
+    overflow: hidden;
+    margin: 0 auto;
+    /*transform: scale(0.8)*/
+  }
 </style>
