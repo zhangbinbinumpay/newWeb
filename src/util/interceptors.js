@@ -111,6 +111,6 @@ axios.interceptors.response.use(data => {
     } else {
         err.message = '连接服务器失败!'
     }
-    vm.$g_toast(err.message);
+    // vm.$g_toast(err.message);
     return Promise.resolve(err);
 });

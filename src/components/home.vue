@@ -34,7 +34,7 @@
                     this.$g_loadingHide();
                     let bodyData = res.data;
                     if (bodyData) {
-                        let responseData = res.data.data;
+                        let responseData = bodyData.data;
                         let openStatus = responseData.openStatus;
                         //0 未开启 1 已开启 2 未绑定活动
                         if (openStatus === 0) {
@@ -45,10 +45,9 @@
                             this.$g_toast("未绑定活动");
                         }
                     } else {
-                        //此处认为是有异常的
-                        //TODO
-                        // this.$router.push({name: 'guide', params: this.userData})
-                        this.$router.push({name: 'confirm', params: this.userData})
+                        //此处认为是有异常
+                        this.$router.push({name: 'guide', params: this.userData})
+                        // this.$router.push({name: 'confirm', params: this.userData})
                     }
 
                 }).catch(err => {

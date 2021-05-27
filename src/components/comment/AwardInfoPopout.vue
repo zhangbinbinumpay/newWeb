@@ -107,9 +107,10 @@
                 let url = "act/api/v1/web/authCode";
                 var requestParam = {};
                 requestParam['mobile'] = this.userPhone;
-                requestParam['mobile'] = this.token;
+                requestParam['token'] = this.token;
                 requestParam['user_id'] = this.user_id;
-                this.getRequest(url, this.requestParam).then(res => {
+                // console.log("requestParam:"+JSON.stringify(requestParam));
+                this.getRequest(url, requestParam).then(res => {
                     this.$g_loadingHide();
                     console.log('res.data:' + JSON.stringify(res));
                     let respnseData = res.data;

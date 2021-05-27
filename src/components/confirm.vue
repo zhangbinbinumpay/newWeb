@@ -35,7 +35,7 @@
         <!--进度条视图-->
         <div
             style="width: 100%;height: 100%;text-align: center; margin: 0 auto;display: flex;flex-direction: row;align-items: center;">
-          <my-process style="width: 80%;margin-left: 10px" :brd-rs="10" :pcs-height="8" :process-dept=80
+          <my-process style="width: 80%;margin-left: 10px" :brd-rs="10" :pcs-height="8" :process-dept='item.precent'
                       bg-color="#E6A23C"
                       :show-striped="true"
                       :show-act="true"/>
@@ -55,7 +55,12 @@
                      :user_id="userData.user_id"
                      v-on:click="addUserAccount"/>
     <AwardInfoEditPopout v-show="isAwardInfoLookShow" v-on:cancel="onCancel" :can-edit-info="true"
-                         v-on:click="rewardEditClick"></AwardInfoEditPopout>
+                         v-on:click="rewardEditClick"
+                         :bank-account="userAccount.bankAccount"
+                         :user-name="userAccount.userName"
+                         :user-mobile="userAccount.userMobile"
+                         :identity-card="userAccount.identityCard"
+    ></AwardInfoEditPopout>
   </div>
 </template>
 
@@ -79,14 +84,14 @@
                 confirmAactiveSuccess: false,
                 rewardAmount: '0',
                 scheduleList: [
-                    {name: '接单', allmount: '1000', currentamount: '0'},
-                    {name: '简历过筛', allmount: '1000', currentamount: '20'},
-                    {name: '完成面试', allmount: '1000', currentamount: '30'},
-                    {name: '发放offer', allmount: '1000', currentamount: '40'},
+                    {name: '接单', allmount: '1000', currentamount: '0', precent: 0},
+                    {name: '简历过筛', allmount: '1000', currentamount: '20', precent: 0},
+                    {name: '完成面试', allmount: '1000', currentamount: '30', precent: 0},
+                    {name: '发放offer', allmount: '1000', currentamount: '40', precent: 0},
                 ],
                 userActBonus: [],/*奖励明细*/
-                rewardAchieve: true,/*可以领奖了*/
-                awardInfoDone: true,/*领奖信息填写完成*/
+                rewardAchieve: false,/*可以领奖了*/
+                awardInfoDone: false,/*领奖信息填写完成*/
                 isAwardInfoAddShow: false,/*展示添加领奖信息*/
                 isAwardInfoLookShow: false,/*展示领奖信息*/
             }
@@ -101,34 +106,66 @@
             this.userData['actId'] = this.userData.act_id;
             console.log('userData1:' + JSON.stringify(this.userData));
 
-            this.querydetail();
+            this.queryDetail();
         },
         methods: {
             //获取奖励进度
-            querydetail() {
+            queryDetail() {
                 let that = this;
                 this.$g_loadingShow('数据加载中');
                 let url = "act/api/v1/web/currentBonus";
                 this.getRequest(url, this.userData).then(res => {
                     this.$g_loadingHide();
-                    let status = res.data.status;
-                    if (status.code === 200) {
-                        let responseData = res.data.data;
-                        let startTime = responseData.startTime;
-                        let endTime = responseData.endTime;
-                        this.taskDate = util.dateFormatStr(startTime) + '至' + util.dateFormatStr(endTime);
-                        let totalBonus = responseData.totalBonus;
-                        this.rewardAmount = parseInt(totalBonus) / 100;
-                        //TODO
-                        this.rewardAmount = 101;
-                        this.rewardAchieve = this.rewardAmount > 100;
-                        let userPhone = responseData.mobile;
-                        if (this.rewardAchieve) {
-                            //奖励达成，需要获取结算账户信息
-                            that.queryUserAccount();
+                    let responseData = res.data;
+                    if (responseData) {
+                        let status = responseData.status;
+                        if (status.code === 200) {
+                            let responseData = res.data.data;
+                            let startTime = responseData.startTime;
+                            let endTime = responseData.endTime;
+                            this.taskDate = util.dateFormatStr(startTime) + '至' + util.dateFormatStr(endTime);
+                            let totalBonus = responseData.totalBonus;
+                            this.rewardAmount = parseInt(totalBonus) / 100;
+                            this.rewardAchieve = this.rewardAmount > 100;
+                            this.userPhone = responseData.mobile;
+                            //开始转换任务进度数据
+                            let tuserActBonus = responseData.userActBonus;
+                            let targetArr = [];
+                            for (let i = 0; i < tuserActBonus.length; i++) {
+                                let schedule = tuserActBonus[i];
+                                var scheduleTarget = {};
+                                let missionId = schedule.missionId;
+                                let name = '';
+                                //take_job_order 接单,recommend_candidate 推人,resume_pass 过筛,finsh_interview 面试完成,get_offer 获得offer
+                                if (missionId === 'take_job_order') {
+                                    name = '接单';
+                                } else if (missionId === 'recommend_candidate') {
+                                    name = '推人';
+                                } else if (missionId === 'resume_pass') {
+                                    name = '过筛';
+                                } else if (missionId === 'finsh_interview') {
+                                    name = '面试完成';
+                                } else if (missionId === 'get_offer') {
+                                    name = '获得offer';
+                                }
+                                let accomplishCount = schedule.accomplishCount;
+                                let bonus = schedule.bonus;
+                                scheduleTarget['name'] = name;
+                                scheduleTarget['currentamount'] = parseInt(accomplishCount) / 100 + '';
+                                scheduleTarget['allmount'] = parseInt(bonus) / 100 + '';
+                                scheduleTarget['precent'] = accomplishCount / bonus * 100;
+                                targetArr.push(scheduleTarget);
+                            }
+                            this.scheduleList = targetArr;
+                            if (this.rewardAchieve) {
+                                //奖励达成，需要获取结算账户信息
+                                that.queryUserAccount();
+                            }
+                        } else {
+                            this.$g_toast(status.detail);
                         }
                     } else {
-                        this.$g_toast('请求失败,' + status.detail);
+                        this.$g_toast('网络异常，请重试！');
                     }
 
                 }).catch(err => {
@@ -154,21 +191,26 @@
             //领奖处理
             rewardClick() {
                 //先进行账户信息同步
-                //TODO
-                // this.queryUserAccount();
-                this.awardInfoDone = false;
-                this.userPhone = '15811378367';
-                if (this.awardInfoDone) {
-                    //已经填写了，进行查看
-                    this.isAwardInfoLookShow = true;
-                } else {
-                    //未填写进行填写
-                    this.isAwardInfoAddShow = true;
-                }
+                this.queryUserAccount();
+
+                // this.awardInfoDone = true;
+                // this.userPhone = '15811378367';
+                // if (this.awardInfoDone) {
+                //     //已经填写了，进行查看
+                //     this.isAwardInfoLookShow = true;
+                // } else {
+                //     //未填写进行填写
+                //     this.isAwardInfoAddShow = true;
+                // }
             },
             addUserAccount(userInfo) {
                 console.log('userInfo:' + userInfo);
-                this.saveUserAccount(userInfo);
+                if (this.awardInfoDone) {
+                    this.updateUserAccount(userInfo);
+                } else {
+                    //全新提交
+                    this.saveUserAccount(userInfo);
+                }
             },
             rewardEditClick() {
                 //未填写进行填写
@@ -177,22 +219,24 @@
             },
             //查询结算账户信息
             queryUserAccount() {
-
                 this.$g_loadingShow('数据加载中');
                 let url = "act/api/v1/web/UserAccount";
                 this.getRequest(url, this.userData).then(res => {
                     this.$g_loadingHide();
-                    console.log('res.data:' + JSON.stringify(res));
+                    // console.log('res.data:' + JSON.stringify(res));
                     let respnseData = res.data;
                     if (respnseData) {
                         let status = respnseData.status;
                         if (status.code === 200) {
-                            this.userAccount = res.data.data;
+                            let accountData = respnseData.data;
+                            this.awardInfoDone = accountData !== undefined;
+                            this.userAccount = accountData;
                         } else {
                             this.$g_toast(status.detail);
                         }
                     } else {
-//请求错误
+                        //请求错误
+                        this.$g_toast('网络异常，请重试！');
                     }
 
                 }).catch(err => {
@@ -214,44 +258,53 @@
 
                 let url = 'act/api/v1/web/saveUserAccount';
                 this.$g_loadingShow('数据加载中');
-
                 this.postRequest(url, accountMap).then(response => {
                     this.$g_loadingHide();
-                    let respnseData = res.data;
-                    if (respnseData) {
-                        let status = respnseData.status;
+                    let responseData = res.data;
+                    if (responseData) {
+                        let status = responseData.status;
                         if (status.code === 200) {
                             //保存成功
                             this.onCancel();
+                            this.awardInfoDone = true;
                         } else {
-
+                            this.$g_toast(status.detail);
                         }
                     } else {
-
+                        this.$g_toast('网络异常，请重试！');
                     }
-
                 }).catch(err => {
                     this.$g_loadingHide();
                 });
             },
+
             //更新结算账户信息
-            updateUserAccount() {
+            updateUserAccount(userInfo) {
+                let infoArr = userInfo.split('-');
                 var accountMap = this.userData;
-                accountMap['bankAccount'] = 'bankAccount';
-                accountMap['userName'] = 'userName';
-                accountMap['identityCard'] = 'identityCard';
-                accountMap['authCode'] = 'authCode';
+                accountMap['userMobile'] = this.userPhone;
+                accountMap['bankAccount'] = infoArr[0];
+                accountMap['userName'] = infoArr[1];
+                accountMap['identityCard'] = infoArr[2];
+                accountMap['authCode'] = infoArr[3];
+                console.log('editAccountMap:' + JSON.stringify(accountMap));
+
                 let url = 'act/api/v1/web/updateUserAccount';
                 this.$g_loadingShow('数据加载中');
 
                 this.postRequest(url, accountMap).then(response => {
                     this.$g_loadingHide();
-                    let status = res.data.status;
-                    if (status.code === 200) {
-                        //保存成功
-                        this.onCancel();
+                    let responseData = res.data;
+                    if (responseData) {
+                        let status = responseData.status;
+                        if (status.code === 200) {
+                            //保存成功
+                            this.onCancel();
+                        } else {
+                            this.$g_toast(status.detail);
+                        }
                     } else {
-
+                        this.$g_toast('网络异常，请重试！');
                     }
                 }).catch(err => {
                     this.$g_loadingHide();
