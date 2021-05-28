@@ -429,7 +429,7 @@
     color: #004F63;
     overflow: hidden;
     white-space: nowrap;
-    /*transform: scale(0.8)*/
+    transform: scale(0.8)
   }
 
   .task-date-detail {

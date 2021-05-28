@@ -68,8 +68,10 @@ export default {
 }
 
 .popout_box {
-  width: 31.5%;
-  height: 18%;
+  /*width: 31.5%;*/
+  /*height: 18%;*/
+  width: 20rem;
+  height: 10rem;
   background-image: url("../../assets/images/smale_rule_back@2x.png");
   background-repeat: no-repeat;
   background-position-x: center;
@@ -81,13 +83,16 @@ export default {
 }
 
 .popout_box_top {
-  width: 67%;
-  height: 14%;
-  margin-top: -0.2rem;
+  width: 100%;
+  height: 22%;
+  /*margin-top: -0.2rem;*/
+  margin-top: -4px;
   background-image: url("../../assets/images/kaiqihuodong@2x.png");
   background-repeat: no-repeat;
-  background-size: contain;
+  /*background-size: contain;*/
   background-position-x: center;
+  background-size: auto 100%;
+
 }
 
 .popout_box_bot {

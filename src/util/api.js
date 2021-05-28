@@ -1,8 +1,10 @@
 //  引入axios文件包
 import axios from 'axios'
 
+let productionurl = 'http://activitytest.hewa.cn/';
+
 /* 跨域代理设置*/
-let pre_proxyurl = process.env.NODE_ENV === 'production' ? '' : '/apis/';
+let pre_proxyurl = process.env.NODE_ENV === 'production' ? productionurl : '/apis/';
 
 // POST 方法封装  (参数处理)
 export const postRequest = (url, params) => {

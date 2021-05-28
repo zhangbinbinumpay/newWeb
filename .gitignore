@@ -3,3 +3,6 @@ node_modules/
 package-lock.json
 .idea/
 *.lock
+src/assets/.DS_Store
+.DS_Store
+exclusive/

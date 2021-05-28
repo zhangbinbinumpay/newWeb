@@ -1,21 +1,25 @@
 <template>
-  <div class="hello_guide">
-    <div class="main-content">
-      <div :class="[content_image,activeButtonState?content_image_background:content_disable_image_background]"
-           @click="confirmActive">
-        <p>
-          开启新任务
-        </p></div>
-      <p class="task-date">任务需在<span class="task-date-detail">{{ taskDate }}</span>之间开启哦</p>
-      <button class="task-button" @click="onClickRule"><img style="width: 10px"
-                                                            src="../assets/images/question-circle-fill@2x.png">活动规则
-      </button>
+
+
+    <div class="hello_guide">
+<!--        <img style="max-width: 100%;max-height: 100%;" src="../assets/images/yemian1.png"/>-->
+
+        <div class="main-content">
+            <div :class="[content_image,activeButtonState?content_image_background:content_disable_image_background]"
+                 @click="confirmActive">
+                <p>
+                    开启新任务
+                </p></div>
+            <p class="task-date">任务需在<span class="task-date-detail">{{ taskDate }}</span>之间开启哦</p>
+            <button class="task-button" @click="onClickRule"><img style="width: 10px"
+                                                                  src="../assets/images/question-circle-fill@2x.png">活动规则
+            </button>
+        </div>
+        <RulePopout v-show="isPrpout" v-on:cancel="onCancel"/>
+        <NoMatchPopout v-show="isActviveNoMatch" v-on:cancel="onCancel"></NoMatchPopout>
+        <SecondConfirmPopout v-show="isSecondConfirmViewShow" v-on:cancel="onCancel"
+                             v-on:click="secondConfirmActive"></SecondConfirmPopout>
     </div>
-    <RulePopout v-show="isPrpout" v-on:cancel="onCancel"/>
-    <NoMatchPopout v-show="isActviveNoMatch" v-on:cancel="onCancel"></NoMatchPopout>
-    <SecondConfirmPopout v-show="isSecondConfirmViewShow" v-on:cancel="onCancel"
-                         v-on:click="secondConfirmActive"></SecondConfirmPopout>
-  </div>
 </template>
 
 <script>
@@ -89,18 +93,16 @@
                     this.$g_loadingHide();
                     let responseData = res.data;
                     if (responseData) {
-                        let openStatus = responseData.data.openStatus;
-                        //0 未开启 1 已开启 2 未绑定活动
-                        if (openStatus === 0) {
-                            this.activeButtonState = false;
-                            this.$g_toast("活动开启失败！");
-                        } else if (openStatus === 1) {
+                        let statusCode = responseData.status.code;
+                        //200 开启成功 其他异常
+                        if (statusCode === 200) {
                             //活动开启成功
                             this.isSecondConfirmViewShow = false;
                             this.activeButtonState = false;
                             //跳转到成功页
                             this.$router.push({name: 'confirm', params: this.userData})
-                        } else if (openStatus === 2) {
+
+                        } else {
                             this.activeButtonState = false;
                             this.$g_toast("活动开启失败！");
                         }
@@ -123,90 +125,90 @@
 </script>
 
 <style scoped>
-  .hello_guide {
-    background-image: url("../assets/images/yemian1.png");
-    background-repeat: no-repeat;
-    min-height: 780px;
-    overflow: auto;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    /*background-size: contain;*/
-    background-size: auto 100%;
-    background-position-x: center;
-    background-position-y: center;
-  }
+    .hello_guide {
+        background-image: url("../assets/images/yemian1.png");
 
-  .main-content {
-    position: absolute;
-    margin-top: 29rem;
-    height: 68px;
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+        background-repeat: no-repeat;
+        min-height: 780px;
+        overflow: auto;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        background-size: auto 100%;
+        background-position-x: center;
+        background-position-y: center;
+    }
 
-  .content-image {
-    width: 100%;
-    height: 30px;
-    margin-top: 5px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position-x: center;
-    background-position-y: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+    .main-content {
+        position: absolute;
+        margin-top: 29rem;
+        height: 68px;
+        width: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .content-image-background {
-    background-image: url("../assets/images/button.png");
-    font-size: 12px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    /*font-weight: 500;*/
-    color: #AB5700;
-    line-height: 46px;
-  }
+    .content-image {
+        width: 100%;
+        height: 30px;
+        margin-top: 5px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position-x: center;
+        background-position-y: center;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
 
-  .content-disable-image-background {
-    background-image: url("../assets/images/button_disable@2x.png");
-    font-size: 12px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    /*font-weight: 500;*/
-    color: #8C8C8C;
-    line-height: 46px;
-  }
+    .content-image-background {
+        background-image: url("../assets/images/button.png");
+        font-size: 12px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        /*font-weight: 500;*/
+        color: #AB5700;
+        line-height: 46px;
+    }
 
-  .content-image p {
-    font-size: 12px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    /*font-weight: 500;*/
-    /*color: #AB5700;*/
-    line-height: 46px;
-  }
+    .content-disable-image-background {
+        background-image: url("../assets/images/button_disable@2x.png");
+        font-size: 12px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        /*font-weight: 500;*/
+        color: #8C8C8C;
+        line-height: 46px;
+    }
 
-  .task-date {
-    font-size: 8px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    /*font-weight: 500;*/
-    color: #004F63;
-    overflow: hidden;
-    white-space: nowrap;
-    transform: scale(0.6)
-  }
+    .content-image p {
+        font-size: 12px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        /*font-weight: 500;*/
+        /*color: #AB5700;*/
+        line-height: 46px;
+    }
 
-  .task-date-detail {
-    color: #FE750A;
-  }
+    .task-date {
+        font-size: 8px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        /*font-weight: 500;*/
+        color: #004F63;
+        overflow: hidden;
+        white-space: nowrap;
+        transform: scale(0.6)
+    }
 
-  .task-button {
-    background-color: #CBEAEE;
-    width: 60%;
-    font-size: 8px;
-    color: #14AEAB;
-    transform: scale(0.6)
-  }
+    .task-date-detail {
+        color: #FE750A;
+    }
+
+    .task-button {
+        background-color: #CBEAEE;
+        width: 60%;
+        font-size: 8px;
+        color: #14AEAB;
+        transform: scale(0.6)
+    }
 </style>
