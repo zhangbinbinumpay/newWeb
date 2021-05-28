@@ -2,7 +2,7 @@
  * Created by admin on 2017/9/24.
  */
 export default function() {
-    var designWidth = 750,maxWidth = 750;
+    var designWidth = 1920,maxWidth = 750;
     var doc = document,
         win = window;
     var docEl = doc.documentElement;

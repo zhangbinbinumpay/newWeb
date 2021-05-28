@@ -1,10 +1,9 @@
 <template>
 
-
     <div class="hello_guide">
-<!--        <img style="max-width: 100%;max-height: 100%;" src="../assets/images/yemian1.png"/>-->
+        <img style="max-width: 100%;max-height: 100%;" src="../assets/images/yemian1.png"/>
 
-        <div class="main-content">
+        <div class="main-content" :style="main_content">
             <div :class="[content_image,activeButtonState?content_image_background:content_disable_image_background]"
                  @click="confirmActive">
                 <p>
@@ -47,7 +46,10 @@
                 content_image: 'content-image',
                 content_image_background: 'content-image-background',
                 content_disable_image_background: 'content-disable-image-background',
-                isSecondConfirmViewShow: false/*开启二次确认*/
+                isSecondConfirmViewShow: false,/*开启二次确认*/
+                main_content: {
+                    marginTop: '29rem',
+                }
             }
         },
         mounted() {
@@ -59,7 +61,12 @@
             this.userData['userId'] = this.userData.user_id;
             this.userData['actId'] = this.userData.act_id;
             // console.log('userData1:' + JSON.stringify(this.userData));
+            this.main_content.marginTop = 1500 * window.innerWidth / 1920 + 'px';
+            console.log('this.main_content:' + JSON.stringify(this.main_content));
         },
+        // created() {
+        //
+        // },
         methods: {
             goContent(cid, e) {
                 // this.$router.push({path: `/content/detail/${cid}`});
@@ -126,7 +133,7 @@
 
 <style scoped>
     .hello_guide {
-        background-image: url("../assets/images/yemian1.png");
+        /*background-image: url("../assets/images/yemian1.png");*/
 
         background-repeat: no-repeat;
         min-height: 780px;
@@ -143,8 +150,8 @@
     .main-content {
         position: absolute;
         margin-top: 29rem;
-        height: 68px;
-        width: 180px;
+        height: 680px;
+        width: 1800px;
         display: flex;
         flex-direction: column;
         justify-content: center;
