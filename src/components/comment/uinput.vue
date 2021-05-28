@@ -339,7 +339,7 @@ export default {
 .input-view > text {
   display: block;
   width: 25%;
-  font-size: 28.2608px;
+  font-size: 11px;
   color: #505050;
   margin-right: 21.7391px;
 }
@@ -362,7 +362,7 @@ export default {
   transition: all .3s;
   /*line-height: 70px;*/
   color: #707070;
-  font-size: 12px;
+  font-size: 11px;
   box-sizing: border-box;
 }
 
@@ -373,10 +373,13 @@ export default {
 
 .txt-r {
   text-align: right;
-  color: #0A5669;
-  font-size: 10px;
-  width: 60px;
+  width: 40px;
   padding-right: 10px;
+  font-size: 11px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #004F63;
+  line-height: 11px;
 }
 
 .txt-l {
@@ -508,7 +511,7 @@ export default {
 }
 
 .msgcode > p {
-  font-size: 12px;
+  font-size: 10px;
   position: absolute;
   right: 21.7391px;
   color: #14AEAB;

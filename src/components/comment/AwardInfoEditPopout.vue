@@ -1,7 +1,7 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 40px;width: 80%;display: flex;justify-content: flex-end" @click="onCancel">
-      <img style="width: 26px;height: 26px"
+    <div class="popout_close" @click="onCancel">
+      <img class="popout_close_image"
            src="../../assets/images/close@2x.png">
     </div>
     <div class="popout_box">
@@ -9,17 +9,17 @@
       </div>
 
       <div class="popout_box_bot">
-        <div style="height: 200px;display: flex;flex-direction: column;align-items: center;margin-top: 20px">
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="银行卡号"
+        <div class="input_box">
+          <uinput class="input_box_uinput" :onlyInput="false" label="银行卡号"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
                   :defaultValue="bankAccount"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="姓名"
+          <uinput class="input_box_uinput" :onlyInput="false" label="姓名"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
                   :defaultValue="userName"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="身份证号"
+          <uinput class="input_box_uinput" :onlyInput="false" label="身份证号"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
                   :defaultValue="identityCard"></uinput>
-          <uinput style="height: 40px;width: 280px" :onlyInput="false" label="禾蛙账号"
+          <uinput class="input_box_uinput" :onlyInput="false" label="禾蛙账号"
                   disabled="disabled" type="label" inputBorder="none" labelPosition="right"
                   :defaultValue="userMobile"></uinput>
         </div>
@@ -100,10 +100,21 @@
     justify-content: center;
     flex-direction: column;
   }
+  .popout_close {
+    height: 20px;
+    width: 236px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .popout_close_image {
+    width: 17px;
+    height: 17px
+  }
 
   .popout_box {
-    width: 80%;
-    height: 55%;
+    width: 236px;
+    height: 222px;
     /*background-color: red;*/
     background-image: url("../../assets/images/rule_background@2x.png");
     background-repeat: no-repeat;
@@ -116,8 +127,9 @@
   }
 
   .popout_box_top {
-    width: 90%;
-    height: 12%;
+    width: 160px;
+    height: 35px;
+    margin-top: -6px;
     background-image: url("../../assets/images/lyxinxi@2x.png");
     background-repeat: no-repeat;
     background-size: contain;
@@ -125,7 +137,7 @@
   }
 
   .popout_box_bot {
-    width: 85%;
+    width: 80%;
     height: 80%;
     padding-top: 10px;
     /*overflow: scroll;*/
@@ -140,10 +152,23 @@
     /*line-height: 30px;*/
     /*border: 1px solid #dddddd;*/
   }
+  .input_box {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px
+  }
+
+  .input_box_uinput {
+    height: 40px;
+    width: 206px;
+    padding-top: 8px;
+  }
 
   .reward_achieve {
-    width: 80px;
-    height: 30px;
+    width: 105px;
+    height: 23px;
     background: linear-gradient(180deg, #FDD45E 0%, #FDD45E 38%, #FEC84F 100%);
     border-radius: 15px;
     display: flex;

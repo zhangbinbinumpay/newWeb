@@ -1,7 +1,7 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 20px;width: 32%;display: flex;justify-content: flex-end" @click="onCancel">
-      <img style="width: 20px;height: 20px"
+    <div class="popout_close" @click="onCancel">
+      <img class="popout_close_image"
            src="../../assets/images/close@2x.png">
     </div>
     <div class="popout_box">
@@ -10,12 +10,8 @@
 
       <div class="popout_box_bot">
 
-        <div style="width: 100%;display: flex;justify-content: center;flex-direction: column">
-          <div style="color: #0A5669;text-align: center;font-size: 12px;transform: scale(0.6);overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;">
+        <div class="popout_text_view">
+          <div class="popout_text">
             开启禾蛙新人任务后<span style="color: #FE750A">50日内</span>完成任务
             最高可得5888元现金奖励哦~
           </div>
@@ -67,11 +63,21 @@ export default {
   flex-direction: column;
 }
 
+.popout_close {
+  height: 20px;
+  width: 236px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popout_close_image {
+  width: 17px;
+  height: 17px
+}
+
 .popout_box {
-  /*width: 31.5%;*/
-  /*height: 18%;*/
-  width: 20rem;
-  height: 10rem;
+  width: 236px;
+  height: 136px;
   background-image: url("../../assets/images/smale_rule_back@2x.png");
   background-repeat: no-repeat;
   background-position-x: center;
@@ -83,13 +89,11 @@ export default {
 }
 
 .popout_box_top {
-  width: 100%;
-  height: 22%;
-  /*margin-top: -0.2rem;*/
-  margin-top: -4px;
+  width: 160px;
+  height: 35px;
+  margin-top: -9px;
   background-image: url("../../assets/images/kaiqihuodong@2x.png");
   background-repeat: no-repeat;
-  /*background-size: contain;*/
   background-position-x: center;
   background-size: auto 100%;
 
@@ -103,6 +107,31 @@ export default {
   display: flex;
 }
 
+.popout_text_view {
+  height: 34px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+
+.popout_text {
+  color: #0A5669;
+  width: 80%;
+  text-align: center;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-weight: 500;
+  line-height: 17px;
+
+  font-family: PingFangSC-Medium, PingFang SC;
+}
+
 .popout_box_bot li {
   list-style-type: disc;
   list-style-position: inside;
@@ -112,8 +141,8 @@ export default {
 }
 
 .reward_achieve {
-  width: 80px;
-  height: 20px;
+  width: 105px;
+  height: 23px;
   background: linear-gradient(180deg, #FDD45E 0%, #FDD45E 38%, #FEC84F 100%);
   border-radius: 15px;
   display: flex;
@@ -121,7 +150,7 @@ export default {
 }
 
 .reward_achieve p {
-  font-size: 8px;
+  font-size: 12px;
   font-family: PingFangSC-Medium, PingFang SC;
   color: #AB5700;
   overflow: hidden;

@@ -1,7 +1,7 @@
 <template>
   <div class="popout">    <!-- 弹框组件 -->
-    <div style="height: 20px;width: 20rem;display: flex;justify-content: flex-end" @click="onCancel">
-      <img style="width: 20px;height: 20px"
+    <div class="popout_close" @click="onCancel">
+      <img class="popout_close_image"
            src="../../assets/images/close@2x.png">
     </div>
     <div class="popout_box">
@@ -26,76 +26,85 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                isPrpout: true
-            }
-        },
-        methods: {
-            //  点击确定
-            onConfirm() {
-                this.$emit('confirm', "确定111")
-            },
-            // 点击取消
-            onCancel() {
-                this.$emit('cancel', "取消111")
-            }
-        }
+export default {
+  data() {
+    return {
+      isPrpout: true
     }
+  },
+  methods: {
+    //  点击确定
+    onConfirm() {
+      this.$emit('confirm', "确定111")
+    },
+    // 点击取消
+    onCancel() {
+      this.$emit('cancel', "取消111")
+    }
+  }
+}
 </script>
 
 <style scoped>
-  .popout {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
+.popout {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .popout_box {
-    width: 20rem;
-    height: 20rem;
-    /*background-color: red;*/
-    background-image: url("../../assets/images/rule_background@2x.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position-x: center;
-    background-position-y: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
+.popout_close {
+  height: 20px;
+  width: 236px;
+  display: flex;
+  justify-content: flex-end;
+}
+.popout_close_image {
+  width: 17px;height: 17px
+}
+.popout_box {
+  width: 236px;
+  height: 281px;
+  /*background-color: red;*/
+  background-image: url("../../assets/images/rule_background@2x.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position-x: center;
+  background-position-y: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 
-  .popout_box_top {
-    width: 90%;
-    height: 12%;
-    margin-top: -2px;
-    background-image: url("../../assets/images/rule_header.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position-x: center;
-  }
+.popout_box_top {
+  width: 160px;
+  height: 35px;
+  margin-top: -5px;
+  background-image: url("../../assets/images/rule_header.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position-x: center;
+}
 
-  .popout_box_bot {
-    width: 85%;
-    height: 80%;
-    padding-top: 10px;
-    overflow: auto;
-  }
+.popout_box_bot {
+  width: 80%;
+  height: 85%;
+  padding-top: 10px;
+  overflow: auto;
+}
 
-  .popout_box_bot li {
-    list-style-type:disc;
-    list-style-position: inside;
-    width: 100%;
-    color: #0A5669;
-    padding-top: 10px;
-    font-size: 10px;
-  }
+.popout_box_bot li {
+  list-style-type: disc;
+  list-style-position: inside;
+  width: 100%;
+  color: #0A5669;
+  padding-top: 10px;
+  font-size: 10px;
+}
 </style>

@@ -18,10 +18,19 @@
       <img :style="{
            width: '15px',
            position: 'absolute',
-           left: processDept > 0?'':'80px'
+           left: processDept > 0?'':'6em'
          }"
            src="../../assets/images/ellipse.png">
-      <span :class="{showTxt: 'hidden-txt'}">{{ txt }}</span>
+      <span :style="{
+           position: 'absolute',
+           marginTop:'40px',
+           fontSize:'14px',
+           width: processDept + 6 + '%',
+           textAlign:'right',
+           color:'#004F63',
+           left: processDept > 0?'':'',
+           marginLeft:'10px'
+         }" :class="{showTxt: 'hidden-txt'}">{{ txt }}</span>
     </div>
 
   </div>
@@ -101,7 +110,7 @@ export default {
     float: left;
     width: 0;
     height: 100%;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     color: #fff;
     text-align: center;
@@ -138,6 +147,7 @@ export default {
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
       border: 0;
+
     }
 
   }

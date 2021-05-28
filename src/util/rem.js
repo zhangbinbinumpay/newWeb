@@ -33,6 +33,7 @@
 //         }
 //         //兼容UC结束
 //         docEl.style.fontSize = rem + "px";
+//         console.log('  docEl.style.fontSize:'+  docEl.style.fontSize);
 //     };
 //     refreshRem();
 //
@@ -56,27 +57,21 @@
 //         }, false);
 //     }
 // };
-// (function() {
-//     var scale = 1.0;
-//     if (window.devicePixelRatio === 2) {
-//         scale *= 0.5;
-//     }
-//     if (window.devicePixelRatio === 3) {
-//         scale *= 0.333333;
-//     }
-//     var text = '<meta name="viewport" content="initial-scale=' + scale + ', maximum-scale=' + scale +', minimum-scale=' + scale + ', width=device-width, user-scalable=no" />';
-//     document.getElementsByTagName("head")[0].innerHTML += text;
-// })();
-// 蓝湖上设计稿自定义为375px 测量值直接写入即可
-(function () {
-    const baseSize = 16; // 32
-    function setRem() {
-        const scale = document.documentElement.clientWidth / 375; // 750
-        document.documentElement.style.fontSize =
-            baseSize * Math.min(scale, 2) + "px";
-    }
 
-    window.onresize = function () {
-        setRem();
-    };
-})();
+
+
+// 基准大小
+const baseSize = 16
+// 设置 rem 函数
+function setRem () {
+    // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
+    const scale = document.documentElement.clientWidth / 750
+    // 设置页面根节点字体大小
+    document.documentElement.style.fontSize = (baseSize * Math.min(scale, 2)) + 'px'
+}
+// 初始化
+setRem()
+// 改变窗口大小时重新设置 rem
+window.onresize = function () {
+    setRem()
+}
