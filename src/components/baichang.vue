@@ -20,9 +20,9 @@
         </div>
         <!--岗位介绍-->
         <div class="block2 flex-row">
-          <div v-for="(item, index) in zoneList">
+          <div v-for="(item, index) in zoneList" :key="index">
             <div
-                :class="['section2','flex-col',{marginTop_20 : (index+1) / 3 > 0},{marginLeft_10 : ((index) % 3 > 0)}]">
+                :class="['section2','flex-col',{marginTop_20 : (parseInt((index/3)) > 0)},{marginLeft_10 : ((index) % 3 > 0)}]">
               <span class="info1">{{ item.zoneName }}</span></div>
           </div>
         </div>
@@ -73,57 +73,49 @@
       </div>
       <!--规则明细-->
       <div class="section4">
-        <div class="ruleInfo">
-          <span class="ruleInfoLeft">1.</span>
+        <div class="ruleInfo flex-col">
           <span class="ruleInfoDetail">
-              本活动只限“百厂联动”各职位专区内的职位参与；
+              1.本活动只限“百厂联动”各职位专区内的职位参与；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">2.</span>
           <span class="ruleInfoDetail">
-              简历过筛以候选人为单位计算数量，不以推荐次数计算数量，即每个候选人简历仅计算一次过筛；
+              2.简历过筛以候选人为单位计算数量，不以推荐次数计算数量，即每个候选人简历仅计算一次过筛；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">3.</span>
+
           <span class="ruleInfoDetail">
-              京东卡为电子卡，活动结束后7个工作日内发放至个人在禾蛙注册时填写的邮箱中；
+              3.京东卡为电子卡，活动结束后7个工作日内发放至个人在禾蛙注册时填写的邮箱中；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">4.</span>
           <span class="ruleInfoDetail">
-              排行榜部分实物礼品在活动结束后10个工作日内由第三方电商平台发出；
+              4.排行榜部分实物礼品在活动结束后10个工作日内由第三方电商平台发出；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">5.</span>
           <span class="ruleInfoDetail">
-              活动中奖励的职位分成将在职位佣金全部回款成功后发放；
+              5.活动中奖励的职位分成将在职位佣金全部回款成功后发放；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">6.</span>
           <span class="ruleInfoDetail">
-              活动期间如遇禾蛙平台调整接单方佣金分成比例，本活动跟随平台调整；
+              6.活动期间如遇禾蛙平台调整接单方佣金分成比例，本活动跟随平台调整；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">7.</span>
           <span class="ruleInfoDetail">
-              用户推荐的简历必须真实有效，一经发现盲推、虚假简历、重复推荐等舞弊违规行为，禾蛙平台有权取消违规者参与活动资格且奖励不予发放；
+              7.用户推荐的简历必须真实有效，一经发现盲推、虚假简历、重复推荐等舞弊违规行为，禾蛙平台有权取消违规者参与活动资格且奖励不予发放；
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">8.</span>
           <span class="ruleInfoDetail">
-              本活动不与其它活动同享，如正在参与平台新用户活动的用户不可参与本活动，如有问题请咨询禾蛙工作人员；&nbsp;
+              8.本活动不与其它活动同享，如正在参与平台新用户活动的用户不可参与本活动，如有问题请咨询禾蛙工作人员；&nbsp;
               <br/>
               <br/>
             </span>
-          <span class="ruleInfoLeft">9.</span>
-          <span class="ruleInfoDetail">此活动解释权在法律范围内归禾蛙平台所有。</span>
+          <span class="ruleInfoDetail">9.此活动解释权在法律范围内归禾蛙平台所有。</span>
         </div>
       </div>
     </div>
@@ -537,7 +529,7 @@ export default {
 
 .info18 {
   z-index: 45;
-  width: 8.03vw;
+  /*width: 8.03vw;*/
   display: block;
   overflow-wrap: break-word;
   color: rgba(11, 28, 141, 1);
