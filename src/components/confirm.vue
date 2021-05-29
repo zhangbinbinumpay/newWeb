@@ -149,7 +149,7 @@ export default {
               let currentAmount = parseInt(bonus) / 100;
               scheduleTarget['currentamount'] = currentAmount > 0 ? currentAmount + '元' : '';
               // scheduleTarget['allmount'] = parseInt(bonus) / 100 + '元';
-              scheduleTarget['precent'] = bonus / allmount * 100;
+              scheduleTarget['precent'] = currentAmount / allmount * 100;
             }
             if (this.rewardAchieve) {
               //奖励达成，需要获取结算账户信息
@@ -291,7 +291,7 @@ export default {
 
       this.postRequest(url, accountMap).then(response => {
         this.$g_loadingHide();
-        let responseData = res.data;
+        let responseData = response.data;
         if (responseData) {
           let status = responseData.status;
           if (status.code === 200) {
