@@ -6,8 +6,7 @@
     <div class="main-content">
 
       <p class="task-date">你的新用户任务期：<span class="task-date-detail">{{ taskDate }}</span></p>
-      <button class="task-button" @click="onClickRule"><img style="width: 10px"
-                                                            src="../assets/images/question-circle-fill@2x.png">活动规则
+      <button class="task-button" @click="onClickRule"><img src="../assets/images/question-circle-fill@2x.png">活动规则
       </button>
     </div>
     <div class="reward-view">
@@ -37,7 +36,7 @@
         <!--进度条视图-->
         <div
             class="progress-view">
-          <my-process class="progress-item" :brd-rs="10" :pcs-height="8" :process-dept='item.precent'
+          <my-process class="progress-item" :brd-rs="10" :process-dept='item.precent'
                       bg-color="#EE4A49"
                       :show-striped="true"
                       :show-txt="true"
@@ -45,7 +44,7 @@
                       :show-act="false"/>
           <div class="rightImage">
             <img src="../assets/images/redpackge.png">
-            <p> {{ item.allmount }}</p>
+            <p> {{ item.allmountStr }}</p>
           </div>
         </div>
       </div>
@@ -87,10 +86,11 @@ export default {
       confirmAactiveSuccess: false,
       rewardAmount: '0',
       scheduleList: [
-        {name: '接单', allmount: '1000', currentamount: '', precent: 0},
-        {name: '简历过筛', allmount: '1000', currentamount: '20元', precent: 20},
-        {name: '完成面试', allmount: '1000', currentamount: '', precent: 40},
-        {name: '发放offer', allmount: '1000', currentamount: '', precent: 50},
+        //take_job_order 接单,recommend_candidate 推人,resume_pass 过筛,finsh_interview 面试完成,get_offer 获得offer
+        {name: '接单', allmount: '88',allmountStr: '88元', currentamount: '', precent: 0, missionId: 'take_job_order'},
+        {name: '简历过筛', allmount: '800',allmountStr: '800元', currentamount: '', precent: 0, missionId: 'resume_pass'},
+        {name: '完成面试', allmount: '2000',allmountStr: '2000元', currentamount: '', precent: 0, missionId: 'finsh_interview'},
+        {name: '发放offer', allmount: '3000',allmountStr: '3000元', currentamount: '', precent: 0, missionId: 'get_offer'},
       ],
       userActBonus: [],/*奖励明细*/
       rewardAchieve: false,/*可以领奖了*/
@@ -108,8 +108,6 @@ export default {
     this.userData['userId'] = this.userData.user_id;
     this.userData['actId'] = this.userData.act_id;
     // console.log('userData1:' + JSON.stringify(this.userData));
-
-    //TODO
     this.queryDetail();
   },
   methods: {
@@ -134,37 +132,28 @@ export default {
             this.userPhone = responseData.mobile;
             //开始转换任务进度数据
             let tuserActBonus = responseData.userActBonus;
-            let targetArr = [];
+            let orignActBouns = this.scheduleList;
             for (let i = 0; i < tuserActBonus.length; i++) {
               let schedule = tuserActBonus[i];
-              var scheduleTarget = {};
+              let scheduleTarget = {};
               let missionId = schedule.missionId;
-              let name = '';
-              //take_job_order 接单,recommend_candidate 推人,resume_pass 过筛,finsh_interview 面试完成,get_offer 获得offer
-              if (missionId === 'take_job_order') {
-                name = '接单';
-              } else if (missionId === 'recommend_candidate') {
-                name = '推人';
-              } else if (missionId === 'resume_pass') {
-                name = '过筛';
-              } else if (missionId === 'finsh_interview') {
-                name = '面试完成';
-              } else if (missionId === 'get_offer') {
-                name = '获得offer';
+
+              for (const scheduleTargetItem in orignActBouns) {
+                if (orignActBouns[scheduleTargetItem].missionId === missionId) {
+                  scheduleTarget = orignActBouns[scheduleTargetItem];
+                  break;
+                }
               }
-              let accomplishCount = schedule.accomplishCount;
+              let allmount = scheduleTarget.allmount;
               let bonus = schedule.bonus;
-              scheduleTarget['name'] = name;
-              let currentAmount = parseInt(accomplishCount) / 100;
+              let currentAmount = parseInt(bonus) / 100;
               scheduleTarget['currentamount'] = currentAmount > 0 ? currentAmount + '元' : '';
-              scheduleTarget['allmount'] = parseInt(bonus) / 100 + '元';
-              scheduleTarget['precent'] = accomplishCount / bonus * 100;
-              targetArr.push(scheduleTarget);
+              // scheduleTarget['allmount'] = parseInt(bonus) / 100 + '元';
+              scheduleTarget['precent'] = bonus / allmount * 100;
             }
-            this.scheduleList = targetArr;
             if (this.rewardAchieve) {
               //奖励达成，需要获取结算账户信息
-              that.queryUserAccount();
+              // that.queryUserAccount();
             }
           } else {
             this.$g_toast(status.detail);
@@ -236,12 +225,15 @@ export default {
             let accountData = respnseData.data;
             this.awardInfoDone = accountData !== undefined;
             this.userAccount = accountData;
+            this.isAwardInfoLookShow = true;
+
           } else {
             this.$g_toast(status.detail);
           }
         } else {
-          //请求错误
-          this.$g_toast('网络异常，请重试！');
+          //未找到账户信息，直接跳转到详情界面
+          this.isAwardInfoAddShow = true;
+          // this.$g_toast('网络异常，请重试！');
         }
 
       }).catch(err => {
@@ -265,7 +257,7 @@ export default {
       this.$g_loadingShow('数据加载中');
       this.postRequest(url, accountMap).then(response => {
         this.$g_loadingHide();
-        let responseData = res.data;
+        let responseData = response.data;
         if (responseData) {
           let status = responseData.status;
           if (status.code === 200) {
@@ -402,7 +394,7 @@ export default {
   height: 34px;
   background: rgb(203, 234, 238);
   margin-left: 64px;
-  margin-top: -36px;
+  margin-top: -46px;
 }
 
 .schedule-item_line3 {
@@ -411,7 +403,7 @@ export default {
   height: 34px;
   background: rgb(203, 234, 238);
   margin-left: 64px;
-  margin-top: 36px;
+  margin-top: 46px;
 }
 
 .content-image p {
@@ -475,12 +467,15 @@ export default {
 }
 
 .task-button {
-  background-color: #CBEAEE;
+  background-color: #C4E7EB;
   width: 60%;
   font-size: 10px;
   color: #14AEAB;
   /*transform: scale(0.6)*/
+}
 
+.task-button img {
+  width: 10px
 }
 
 .rightImage {
@@ -491,7 +486,7 @@ export default {
   background-position-x: center;
   background-position-y: center;
   position: absolute;
-  right: 10px;
+  right: 0px;
 }
 
 .rightImage img {

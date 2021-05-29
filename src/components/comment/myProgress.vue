@@ -2,7 +2,6 @@
   <div class="progress"
        :style="{
         borderRadius: brdRs + 'px',
-        height: pcsHeight + 'px',
        }"
   >
     <div class="progress-bar"
@@ -15,24 +14,19 @@
            backgroundColor: bgColor,
            color: txtColor,
          }">
-      <img :style="{
-           width: '15px',
-           position: 'absolute',
-           left: processDept > 0?'':'6em'
-         }"
-           src="../../assets/images/ellipse.png">
-      <span :style="{
-           position: 'absolute',
-           marginTop:'40px',
-           fontSize:'14px',
-           width: processDept + 6 + '%',
-           textAlign:'right',
-           color:'#004F63',
-           left: processDept > 0?'':'',
-           marginLeft:'10px'
-         }" :class="{showTxt: 'hidden-txt'}">{{ txt }}</span>
-    </div>
 
+    </div>
+    <img :style="{
+           width: '1.2em',
+           position: 'absolute',
+           marginTop:'-0.3em',
+           left: processDept > 0? processDept * 0.7 + 22 + '%':'6em'
+         }"
+         src="../../assets/images/ellipse.png">
+    <span :style="{
+           left: processDept > 0?processDept * 0.7 + 15 + '%':'6.875em',
+           marginTop:'1.975em',
+         }" :class="{showTxt: 'hidden-txt'}" class="progress-bar-span">{{ txt }}</span>
   </div>
 </template>
 
@@ -97,7 +91,7 @@ export default {
 <style lang="scss" scoped>
 
 .progress {
-  height: 20px;
+  height: 10px;
   overflow: hidden;
   background-color: #f5f5f5;
   border-radius: 10px;
@@ -123,6 +117,15 @@ export default {
     display: flex;
     justify-content: right;
     align-items: center;
+
+    &-span {
+      text-align: right;
+      color: #004F63;
+      position: absolute;
+      margin-top: 40px;
+      font-size: 14px;
+      margin-left: 16px;
+    }
 
     &-striped {
       background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);

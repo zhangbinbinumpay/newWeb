@@ -46,7 +46,7 @@
                  :class="error&&mustFill?'error':error===false?'success':''"/>
           <p @click="getCode" :class="interval?'disabled':''">{{ codetext }}</p>
         </div>
-        <p v-if="type === 'label'" style="padding-left: 15px">{{ defaultValue }}</p>
+        <p v-if="type === 'label'" class="default_label">{{ defaultValue }}</p>
         <div
             v-if="!disabledClear"
             style=""
@@ -166,7 +166,7 @@ export default {
     },
     codeText: {
       type: String,
-      default: '获取验证码'
+      default: '点击发送验证码'
     },
     countDown: {
       type: Number,
@@ -357,12 +357,12 @@ export default {
   border: 1px solid #c0c0c0;
   width: 100%;
   padding: 0 10px;
-  height: 30px;
+  height: 20px;
   border-radius: 4px;
   transition: all .3s;
   /*line-height: 70px;*/
   color: #707070;
-  font-size: 11px;
+  font-size: 8px;
   box-sizing: border-box;
 }
 
@@ -373,9 +373,9 @@ export default {
 
 .txt-r {
   text-align: right;
-  width: 40px;
-  padding-right: 10px;
-  font-size: 11px;
+  width: 45px;
+  padding-right: 8px;
+  font-size: 8px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: #004F63;
@@ -511,7 +511,7 @@ export default {
 }
 
 .msgcode > p {
-  font-size: 10px;
+  font-size: 6px;
   position: absolute;
   right: 21.7391px;
   color: #14AEAB;
@@ -639,5 +639,17 @@ export default {
   width: 20px;
   height: 30px;
   margin-left: -30px;
+}
+.default_label {
+  padding-left: 15px;
+  font-size: 8px;
+}
+
+.sendcode_label {
+  /*font-size: 8px;*/
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #14AEAB;
+  line-height: 9px;
 }
 </style>

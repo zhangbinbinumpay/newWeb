@@ -2,12 +2,16 @@
   <div>
     <!--    三重礼-->
     <div class="model1 flex-col">
-      <div v-if="useIsLogin" class="main6 flex-col">
-          <span class="word24">
-            恭喜!&nbsp;138****8371的用户获得一张20元的京东卡
-          </span>
+      <div v-if="latestBonus" class="main6 flex-col">
+        <!-- 无缝滚动效果 -->
+        <div class="marquee-wrap">
+          <ul class="marquee-list" :class="{'animate-up': animateUp}">
+            <li v-for="(item, index) in latestBonus" :key="index">{{ item }}</li>
+          </ul>
+        </div>
+
       </div>
-      <div v-if="useIsLogin" class="box1 flex-col">
+      <div v-if="bonus" class="box1 flex-col">
           <span class="word25">
             {{ bonus }}
           </span>
@@ -30,11 +34,13 @@
       </div>
     </div>
     <div class="group3 flex-col">
-      <div v-if="useIsLogin" class="block1 flex-col">
+      <div v-if="rewardInfos" class="block1 flex-col">
         <span class="word1">精英排行榜</span>
       </div>
+      <img class="xingqiu" src="../assets/images/xingqiu@2x.png"/>
+
       <!--      精英排行榜-->
-      <div v-if="useIsLogin" class="section3 flex-col">
+      <div v-if="rewardInfos" class="section3 flex-col">
         <!--精英排行榜-->
         <div class="block3 flex-row">
           <div class="mod2 flex-row">
@@ -42,26 +48,30 @@
             <div class="word11">奖品</div>
             <div class="word11 flex-row">
               <span>过筛简历数</span>
-              <img
-                  class="icon1"
-                  referrerpolicy="no-referrer"
-                  src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPnge10882e8c09f0834e5dd28f89738505b0fe84ed75ab6d59f46fd630b752ac218"
-              />
+              <el-tooltip class="item" effect="dark" content="同一份简历通过多次初筛只被计作一次" placement="bottom">
+                <el-button type="text" plain
+                           style="margin:auto 0px auto 10px;"
+                           size="small"></el-button>
+                <img
+                    class="icon1"
+                    referrerpolicy="no-referrer"
+                    src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPnge10882e8c09f0834e5dd28f89738505b0fe84ed75ab6d59f46fd630b752ac218"
+                />
+              </el-tooltip>
+
             </div>
             <div class="word11">用户名</div>
           </div>
         </div>
         <div class="rankList">
-          <div v-for="(item, index) in rankList">
-            <div class="rankListTable flex-row">
-              <span class="info9">{{ index + 1 + '' }}</span>
-              <span class="word12">{{ rewardInfos[index] }}</span>
-              <span class="word12">{{ item.accomplishCount }}</span>
-              <span class="word12">{{ item.userMobile }}</span>
-            </div>
+          <div class="rankListTable flex-row" v-for="(item, index) in rewardInfos">
+            <span class="info9">{{ index + 1 + '' }}</span>
+            <span class="word12">{{ item.name }}</span>
+            <span class="word12">{{ item.accomplishCount }}</span>
+            <span class="word12">{{ item.userMobile }}</span>
           </div>
         </div>
-        <div class="rankTips">
+        <div v-if="rankMsg" class="rankTips">
           <span class="word23">你的当前排名为{{ rank }} </span>
           <span class="txt11">
               {{ rankMsg }}
@@ -70,7 +80,8 @@
       </div>
       <!--      规则视图-->
       <div class="rule">
-        <span class="info18">活动规则:</span>
+        <img src="../assets/images/guize.png"/>
+        <span>活动规则:</span>
       </div>
       <!--规则明细-->
       <div class="section4">
@@ -120,24 +131,37 @@
         </div>
       </div>
     </div>
+
+    <AletPopout style="z-index: 155;" v-show="isPrpout" v-on:cancel="onCancel"/>
+
   </div>
 </template>
 
 <script>
 import util from "../util";
+import AletPopout from "./comment/AletPopout";
 
 export default {
   name: 'baichang',
   data() {
     return {
-      useIsLogin: false,
+      useIsLogin: true,
       zoneList: [],
       rankList: [],
-      rewardInfos: ['Apple iPad 128G WLAN版', '戴森V8 手持无线吸尘器', 'Kindle 经典版四代 32G', '飞利浦咖啡机', '禾蛙定制礼品8件套+200元京东卡'],
+      rewardInfos: [
+        {name: 'Apple iPad 128G WLAN版', accomplishCount: '', userMobile: '虚位以待'},
+        {name: '戴森V8 手持无线吸尘器', accomplishCount: '', userMobile: '虚位以待'},
+        {name: 'Kindle 经典版四代 32G', accomplishCount: '', userMobile: '虚位以待'},
+        {name: '飞利浦咖啡机', accomplishCount: '', userMobile: '虚位以待'},
+        {name: '禾蛙定制礼品8件套+200元京东卡', accomplishCount: '', userMobile: '虚位以待'}
+      ],
       rank: '',
       bonus: '',
       rankMsg: '',
-      latestBonus: []
+      latestBonus: [],
+      timer: null,
+      animateUp: false,
+      isPrpout: false
     };
   },
   mounted() {
@@ -156,24 +180,65 @@ export default {
     if (!this.userData.user_id) {
       this.userData = this.$route.query;
     }
+
+    let trankList = [{
+      "userMobile": "151****6678",
+      "accomplishCount": 108
+    },
+      {
+        "userMobile": "151****6677",
+        "accomplishCount": 107
+      }];
+
+    // if(trankList){
+    //   let ranks = trankList;
+    //   for (let i = 0; i < ranks.length; i++) {
+    //     let rankItem = ranks[i];
+    //     let orignMap = this.rewardInfos[i];
+    //     orignMap['userMobile'] = rankItem.userMobile;
+    //     orignMap['accomplishCount'] = rankItem.accomplishCount;
+    //   }
+    // }
     this.home();
+    //开启定时
+    this.timer = setInterval(this.scrollAnimate, 3000);
   },
   methods: {
     home() {
       // console.log('userData1:' + JSON.stringify(this.userData));
       this.$g_loadingShow('数据加载中');
       let url = "act/api/v1/web/info100";
+      let that = this;
       this.getRequest(url, this.userData).then(res => {
         this.$g_loadingHide();
         let bodyData = res.data;
         if (bodyData) {
           this.useIsLogin = true;
           let responseData = bodyData.data;
-          this.latestBonus = responseData.latestBonus;
-          this.rankList = responseData.rankList;
-          this.rank = responseData.rank;
-          this.bonus = responseData.bonus;
-          this.rankMsg = responseData.rankMsg;
+          if (responseData.latestBonus){
+            //顶部轮播图
+            for (let i = 0; i < responseData.latestBonus.length; i++) {
+              let phone = responseData.latestBonus[i];
+              that.latestBonus.push('恭喜!'+phone.userMobile + '的用户获一张20元的京东卡');
+            }
+          }
+
+          if (responseData.rankList) {
+            let ranks = responseData.rankList;
+            for (let i = 0; i < ranks.length; i++) {
+              let rankItem = ranks[i];
+              let orignMap = this.rewardInfos[i];
+              orignMap['userMobile'] = rankItem.userMobile;
+              orignMap['accomplishCount'] = rankItem.accomplishCount;
+            }
+          }
+
+          that.rank = responseData.rank;
+          that.bonus = responseData.bonus;
+          that.rankMsg = responseData.rankMsg;
+          //已经参加了新手活动直接提示
+          that.isPrpout = (responseData.takeNewUser === 1);
+          // that.isPrpout = true;
         }
       }).catch(err => {
         console.log('err:' + err);
@@ -199,15 +264,32 @@ export default {
     },
 
     gangweiClick(url) {
-      console.log('岗位地址：' + url);
+      // console.log('岗位地址：' + url);
       window.open(url, '_blank') // 在新窗口打开外链接
       // window.location.href =this.indexro;  //在本页面打开外部链接
+    },
+    scrollAnimate() {
+      this.animateUp = true
+      setTimeout(() => {
+        this.latestBonus.push(this.latestBonus[0])
+        this.latestBonus.shift()
+        this.animateUp = false
+      }, 500)
+    },
+    onCancel() {
+      this.isPrpout = false;
     }
-  }
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
+  components: {
+    AletPopout,
+  },
 };
 </script>
 <style src="../assets/css/common.css"/>
-<style>
+<style lang="scss" scoped>
 .model1 {
   background-image: url("../assets/images/baichang_model1.png");
   background-repeat: no-repeat;
@@ -232,15 +314,14 @@ export default {
   border-radius: 26px;
   background-color: rgba(7, 55, 221, 1);
   width: 47.97vw;
-  justify-content: center;
-  align-items: center;
+  //justify-content: center;
+  //align-items: center;
   margin-top: 36.2%;
   margin-left: 20px;
 }
 
 .word24 {
   z-index: 149;
-  width: 18.08vw;
   display: block;
   overflow-wrap: break-word;
   color: rgba(255, 255, 255, 1);
@@ -263,18 +344,18 @@ export default {
 }
 
 .word25 {
-  z-index: 148;
-  width: 16.05vw;
+  //z-index: 148;
+  width: 149px;
   display: block;
   overflow-wrap: break-word;
   color: rgba(43, 43, 43, 1);
   font-size: 0.72vw;
   line-height: 1.05vw;
-  text-align: left;
+  text-align: center;
 }
 
 .group2 {
-  z-index: 40;
+  //z-index: 40;
   /*height: 54.48vw;*/
   background-color: rgba(75, 85, 184, 0.46);
   align-self: center;
@@ -284,7 +365,7 @@ export default {
 }
 
 .group3 {
-  z-index: 40;
+  //z-index: 40;
   /*height: 54.48vw;*/
   background-color: #0B1C8D;
   align-self: center;
@@ -330,11 +411,22 @@ export default {
 
 .rankList {
   background-color: #6D5EFC;
-  /*height: 100px;*/
-  width: 90%;
+  height: 185px;
+  width: 420px;
   margin-top: 1.16vw;
   padding-top: 1.16vw;
   padding-bottom: 1.16vw;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.xingqiu {
+  position: absolute;
+  width: 91px;
+  height: 82px;
+  left: 68px;
+  top: 98px;
 }
 
 .section1 {
@@ -358,7 +450,7 @@ export default {
 .section3 {
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 469px;
   background-color: #0F23B4;
   margin-top: 20px;
 }
@@ -446,7 +538,8 @@ export default {
 .rankListTable {
   width: 100%;
   justify-content: center;
-  height: 5.50vh;
+  flex: 1;
+  /*height: 4.50vh;*/
 }
 
 .info9 {
@@ -459,7 +552,7 @@ export default {
   flex: 1;
   justify-content: center;
   width: 1.1vw;
-  font-size: 2.6vw;
+  font-size: 20px;
   font-family: JCHEadA;
   line-height: 2.61vw;
 }
@@ -470,7 +563,7 @@ export default {
   display: block;
   overflow-wrap: break-word;
   color: rgba(255, 255, 255, 1);
-  font-size: 1.35vw;
+  font-size: 9px;
   font-family: PingFangSC-Medium;
   line-height: 1.93vw;
   text-align: center;
@@ -526,31 +619,33 @@ export default {
 
 .rule {
   z-index: 64;
-  height: 5.05vw;
-  /*justify-content: center;*/
   align-items: center;
-  background-image: url("../assets/images/guize.png");
   background-repeat: no-repeat;
-  background-size: contain;
   width: 74%;
   display: flex;
   margin-top: 2.15rem;
-  margin-bottom: 2.16rem;
   flex-direction: row;
   padding-right: 2.04vw;
   padding-left: 2.04vw;
 }
 
-.info18 {
+.rule img {
+  width: 86px;
+  height: 37px;
+  position: absolute;
+}
+
+.rule span {
   z-index: 45;
   /*width: 8.03vw;*/
   display: block;
   overflow-wrap: break-word;
   color: rgba(11, 28, 141, 1);
-  font-size: 1.87vw;
+  font-size: 14px;
   font-family: PingFangSC-Semibold;
   line-height: 2.61vw;
   text-align: left;
+  margin-left: 10px;
 }
 
 .section4 {
@@ -583,4 +678,40 @@ export default {
   line-height: 1.52vw;
   /*background-color: orangered;*/
 }
+
+.marquee-wrap {
+  width: 80%;
+  //height: 40px;
+  border-radius: 20px;
+  //background: rgba($color: #000000, $alpha: 0.6);
+  background-color: rgba(7, 55, 221, 1);
+  margin: 0 auto;
+  overflow: hidden;
+
+  .marquee-list {
+
+    li {
+      width: 100%;
+      height: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0 20px;
+      list-style: none;
+      //line-height: 40px;
+      text-align: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+  }
+
+  .animate-up {
+    transition: all 0.5s ease-in-out;
+    transform: translateY(-40px);
+  }
+
+}
+
 </style>

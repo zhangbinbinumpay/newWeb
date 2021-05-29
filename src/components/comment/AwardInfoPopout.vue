@@ -34,7 +34,7 @@
                   v-on:counting="authCode"
                   @inputclear="sendCode = $event.clear"></uinput>
         </div>
-        <div style="width: 100%; display: flex;justify-content: center;margin-top: 20px">
+        <div class="confirm_button">
           <div class="reward_achieve" @click="confirmPost">
             <p>确认提交
             </p>
@@ -189,7 +189,7 @@ export default {
 
 .popout_box_bot {
   width: 85%;
-  height: 80%;
+  height: 70%;
   padding-top: 10px;
   /*overflow: scroll;*/
 }
@@ -219,7 +219,7 @@ export default {
 }
 
 .input_box_uinput {
-  height: 40px;
+  height: 30px;
   width: 206px;
   padding-top: 8px;
 }
@@ -240,5 +240,12 @@ export default {
   color: #AB5700;
   overflow: hidden;
   margin: 0 auto;
+}
+
+.confirm_button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px
 }
 </style>

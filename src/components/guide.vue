@@ -10,8 +10,7 @@
           开启新任务
         </p></div>
       <p class="task-date">任务需在<span class="task-date-detail">{{ taskDate }}</span>之间开启哦</p>
-      <button class="task-button" @click="onClickRule"><img style="width: 10px"
-                                                            src="../assets/images/question-circle-fill@2x.png">活动规则
+      <button class="task-button" @click="onClickRule"><img src="../assets/images/question-circle-fill@2x.png">活动规则
       </button>
     </div>
     <RulePopout v-show="isPrpout" v-on:cancel="onCancel"/>
@@ -41,9 +40,9 @@ export default {
     return {
       imagUrl: '',
       userData: {},
-      taskDate: '2021年6月1日至2021年7月1日',
+      taskDate: '2021年6月1日至2021年9月30日',
       isPrpout: false,
-      isActviveNoMatch: true,
+      isActviveNoMatch: false,
       content_image: 'content-image',
       content_image_background: 'content-image-background',
       content_disable_image_background: 'content-disable-image-background',
@@ -111,11 +110,14 @@ export default {
             this.$router.push({name: 'confirm', params: this.userData})
 
           } else {
+            this.isSecondConfirmViewShow = false;
             this.activeButtonState = false;
-            this.$g_toast("活动开启失败！");
+            this.isActviveNoMatch = true;
+            // this.$g_toast("活动开启失败！");
           }
         } else {
-          this.$g_toast("活动开启失败！");
+          // this.$g_toast("活动开启失败！");
+          this.isActviveNoMatch = true;
           this.isSecondConfirmViewShow = false;
         }
       }).catch(err => {
@@ -217,5 +219,8 @@ export default {
   font-size: 12px;
   color: #14AEAB;
   /*transform: scale(0.6)*/
+}
+.task-button img{
+  width: 10px
 }
 </style>
