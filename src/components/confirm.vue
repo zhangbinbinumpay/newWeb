@@ -107,7 +107,7 @@ export default {
           allmount: '88',
           allmountStr: '88元',
           currentamount: '',
-          precent: '',
+          precent: 0,
           missionId: 'take_job_order',
         },
         {
