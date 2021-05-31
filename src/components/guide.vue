@@ -69,6 +69,7 @@ export default {
       content_image_background: 'content-image-background',
       content_disable_image_background: 'content-disable-image-background',
       isSecondConfirmViewShow: false /*开启二次确认*/,
+      isUserDataValid:true,
       // main_content:{
       //   marginTop:'288px'
       // }
@@ -97,8 +98,8 @@ export default {
     // this.main_content.marginTop = 1500 * window.innerWidth / 1920 + 'px';
     // console.log('this.main_content:' + JSON.stringify(this.main_content));
       if (!this.userData.user_id || !this.userData.token || !this.userData.act_id) {
-          this.activeButtonState = false;
-
+          this.isUserDataValid = false;
+          this.$g_toast('小蛙发现你暂不具备活动资格哦~');
       }
   },
   // created() {
@@ -122,11 +123,16 @@ export default {
     },
     //开启活动
     confirmActive() {
-      if (this.activeButtonState) {
-        this.isSecondConfirmViewShow = true
-      } else {
-        this.$g_toast('活动暂无法开启')
-      }
+        if (this.isUserDataValid){
+            if (this.activeButtonState) {
+                this.isSecondConfirmViewShow = true
+            } else {
+                this.$g_toast('小蛙发现你暂不具备活动资格哦~')
+            }
+        }else {
+            this.$g_toast('小蛙发现你暂不具备活动资格哦~')
+        }
+
     },
     //二次确认活动开启
     secondConfirmActive() {
