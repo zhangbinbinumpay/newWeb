@@ -8,7 +8,7 @@ import baichang from "../components/baichang";
 Vue.use(Router)
 
 export default new Router({
-    mode: 'hash',//history、hash
+    mode: 'history',//history、hash
     base: 'exclusive',
     routes: [
         {path: '/', redirect: 'home'},

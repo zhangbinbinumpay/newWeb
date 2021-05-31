@@ -53,7 +53,18 @@ export default {
     }
   },
   mounted() {
-    this.userData = this.$route.params;
+    let token = util.getUrlParam("token");
+    let act_id = util.getUrlParam("act_id");
+    let user_id = util.getUrlParam("user_id");
+    this.userData = {
+      token: token,
+      act_id: act_id,
+      user_id: user_id
+    };
+    if (!this.userData.user_id) {
+      this.userData = this.$route.params;
+    }
+
     //进行数据转换 userId user_id
     if (!this.userData.user_id) {
       this.userData = this.$route.query;

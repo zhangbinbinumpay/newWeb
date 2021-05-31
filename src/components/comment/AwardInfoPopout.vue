@@ -112,7 +112,7 @@ export default {
       // console.log("requestParam:"+JSON.stringify(requestParam));
       this.getRequest(url, requestParam).then(res => {
         this.$g_loadingHide();
-        console.log('res.data:' + JSON.stringify(res));
+        // console.log('res.data:' + JSON.stringify(res));
         let respnseData = res.data;
         if (respnseData) {
           let status = respnseData.status;
@@ -126,7 +126,7 @@ export default {
         }
 
       }).catch(err => {
-        console.log('er1r:' + err);
+        // console.log('er1r:' + err);
         this.$g_loadingHide();
       });
     },

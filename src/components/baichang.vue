@@ -72,7 +72,7 @@
           </div>
         </div>
         <div v-if="rankMsg" class="rankTips">
-          <span class="word23">你的当前排名为{{ rank }} </span>
+          <span v-if="rank" class="word23">你的当前排名为{{ rank }} </span>
           <span class="txt11">
               {{ rankMsg }}
             </span>
@@ -98,7 +98,7 @@
             </span>
 
           <span class="ruleInfoDetail">
-              3.京东卡为电子卡，活动结束后7个工作日内发放至个人在禾蛙注册时填写的邮箱中；
+              3.京东卡为电子卡，活动结束后10个工作日内发放至个人在禾蛙注册时填写的邮箱中；
               <br/>
               <br/>
             </span>
@@ -181,15 +181,6 @@ export default {
       this.userData = this.$route.query;
     }
 
-    let trankList = [{
-      "userMobile": "151****6678",
-      "accomplishCount": 108
-    },
-      {
-        "userMobile": "151****6677",
-        "accomplishCount": 107
-      }];
-
     // if(trankList){
     //   let ranks = trankList;
     //   for (let i = 0; i < ranks.length; i++) {
@@ -241,7 +232,7 @@ export default {
           // that.isPrpout = true;
         }
       }).catch(err => {
-        console.log('err:' + err);
+        // console.log('err:' + err);
         this.$g_loadingHide();
       });
 
@@ -472,7 +463,7 @@ export default {
   display: block;
   overflow-wrap: break-word;
   color: rgba(255, 255, 255, 1);
-  font-size: 1.25vw;
+  font-size: 12px;
   line-height: 1.72vw;
 }
 

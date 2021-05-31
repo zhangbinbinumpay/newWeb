@@ -26,6 +26,7 @@
     <span :style="{
            left: processDept > 0?processDept * 0.7 + 15 + '%':'6.875em',
            marginTop:'1.975em',
+           visibility:processDept < 100 ?'visible':'hidden',
          }" :class="{showTxt: 'hidden-txt'}" class="progress-bar-span">{{ txt }}</span>
   </div>
 </template>
@@ -150,7 +151,6 @@ export default {
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
       border: 0;
-
     }
 
   }

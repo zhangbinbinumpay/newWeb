@@ -39,7 +39,7 @@
           <my-process class="progress-item" :brd-rs="10" :process-dept='item.precent'
                       bg-color="#EE4A49"
                       :show-striped="true"
-                      :show-txt="true"
+                      :show-txt="item.precent<=99.999"
                       :txt="item.currentamount"
                       :show-act="false"/>
           <div class="rightImage">
@@ -56,7 +56,7 @@
                      :token="userData.token"
                      :user_id="userData.user_id"
                      v-on:click="addUserAccount"/>
-    <AwardInfoEditPopout v-show="isAwardInfoLookShow" v-on:cancel="onCancel" :can-edit-info="true"
+    <AwardInfoEditPopout v-show="isAwardInfoLookShow" v-on:cancel="onCancel" :can-edit-info="isCanEditAccount"
                          v-on:click="rewardEditClick"
                          :bank-account="userAccount.bankAccount"
                          :user-name="userAccount.userName"
@@ -97,10 +97,22 @@ export default {
       awardInfoDone: false,/*领奖信息填写完成*/
       isAwardInfoAddShow: false,/*展示添加领奖信息*/
       isAwardInfoLookShow: false,/*展示领奖信息*/
+      isCanEditAccount:true,/*默认可以修改结算底价*/
     }
   },
   mounted() {
-    this.userData = this.$route.params;
+    let token = util.getUrlParam("token");
+    let act_id = util.getUrlParam("act_id");
+    let user_id = util.getUrlParam("user_id");
+    this.userData = {
+      token: token,
+      act_id: act_id,
+      user_id: user_id
+    };
+    if (!this.userData.user_id) {
+      this.userData = this.$route.params;
+    }
+
     //进行数据转换 userId user_id
     if (!this.userData.user_id) {
       this.userData = this.$route.query;
@@ -125,11 +137,15 @@ export default {
             let responseData = res.data.data;
             let startTime = responseData.startTime;
             let endTime = responseData.endTime;
-            this.taskDate = util.dateFormatStr(startTime) + '至' + util.dateFormatStr(endTime);
+            that.taskDate = util.dateFormatStr(startTime) + '至' + util.dateFormatStr(endTime);
+            //此处修改结算账户是否可以编辑
+            let oDate2 = new Date(endTime);
+            that.isCanEditAccount = (new Date()).getTime() < oDate2.getTime();
+
             let totalBonus = responseData.totalBonus;
-            this.rewardAmount = parseInt(totalBonus) / 100;
-            this.rewardAchieve = this.rewardAmount > 100;
-            this.userPhone = responseData.mobile;
+            that.rewardAmount = parseInt(totalBonus) / 100;
+            that.rewardAchieve = this.rewardAmount >= 100;
+            that.userPhone = responseData.mobile;
             //开始转换任务进度数据
             let tuserActBonus = responseData.userActBonus;
             let orignActBouns = this.scheduleList;
@@ -151,7 +167,7 @@ export default {
               // scheduleTarget['allmount'] = parseInt(bonus) / 100 + '元';
               scheduleTarget['precent'] = currentAmount / allmount * 100;
             }
-            if (this.rewardAchieve) {
+            if (that.rewardAchieve) {
               //奖励达成，需要获取结算账户信息
               // that.queryUserAccount();
             }
@@ -198,7 +214,7 @@ export default {
       // }
     },
     addUserAccount(userInfo) {
-      console.log('userInfo:' + userInfo);
+      // console.log('userInfo:' + userInfo);
       if (this.awardInfoDone) {
         this.updateUserAccount(userInfo);
       } else {
@@ -237,7 +253,7 @@ export default {
         }
 
       }).catch(err => {
-        console.log('er1r:' + err);
+        // console.log('er1r:' + err);
         this.$g_loadingHide();
       });
     },
@@ -251,7 +267,7 @@ export default {
       accountMap['userName'] = infoArr[1];
       accountMap['identityCard'] = infoArr[2];
       accountMap['authCode'] = infoArr[3];
-      console.log('accountMap:' + JSON.stringify(accountMap));
+      // console.log('accountMap:' + JSON.stringify(accountMap));
 
       let url = 'act/api/v1/web/saveUserAccount';
       this.$g_loadingShow('数据加载中');
@@ -265,7 +281,22 @@ export default {
             this.onCancel();
             this.awardInfoDone = true;
           } else {
-            this.$g_toast(status.detail);
+            let errMsg = '网络异常，请重试！';
+            switch (status.code) {
+              case -3001:
+                errMsg = '请求发送短信失败';
+              break;
+              case -3002:
+                errMsg = '验证码错误';
+                break;
+              case -3003:
+                errMsg = '请求开启活动失败';
+                break;
+              case -3004:
+                errMsg = '无资格开启活动';
+                break;
+            }
+            this.$g_toast(errMsg);
           }
         } else {
           this.$g_toast('网络异常，请重试！');
@@ -284,7 +315,7 @@ export default {
       accountMap['userName'] = infoArr[1];
       accountMap['identityCard'] = infoArr[2];
       accountMap['authCode'] = infoArr[3];
-      console.log('editAccountMap:' + JSON.stringify(accountMap));
+      // console.log('editAccountMap:' + JSON.stringify(accountMap));
 
       let url = 'act/api/v1/web/updateUserAccount';
       this.$g_loadingShow('数据加载中');
