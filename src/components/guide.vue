@@ -96,6 +96,10 @@ export default {
     // console.log('userData1:' + JSON.stringify(this.userData));
     // this.main_content.marginTop = 1500 * window.innerWidth / 1920 + 'px';
     // console.log('this.main_content:' + JSON.stringify(this.main_content));
+      if (!this.userData.user_id || !this.userData.token || !this.userData.act_id) {
+          this.activeButtonState = false;
+
+      }
   },
   // created() {
   //
@@ -136,7 +140,7 @@ export default {
           if (responseData) {
             let statusCode = responseData.status.code
             //200 开启成功 其他异常
-            if (statusCode === 400) {
+            if (statusCode === 200) {
               //活动开启成功
               this.isSecondConfirmViewShow = false
               this.activeButtonState = false

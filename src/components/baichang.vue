@@ -213,7 +213,7 @@
                                 that.latestBonus.push('恭喜!' + phone.userMobile + '的用户获一张20元的京东卡');
                             }
                         }
-                        that.rankList = responseData.rankList;
+
                         if (responseData.rankList) {
                             let ranks = responseData.rankList;
                             for (let i = 0; i < ranks.length; i++) {
@@ -222,6 +222,7 @@
                                 orignMap['userMobile'] = rankItem.userMobile;
                                 orignMap['accomplishCount'] = rankItem.accomplishCount;
                             }
+                            that.rankList = responseData.rankList;
                         }
 
                         that.rank = responseData.rank;
@@ -249,7 +250,7 @@
                     }
 
                 }).catch(err => {
-                    console.log('err:' + err);
+                    // console.log('err:' + err);
                     this.$g_loadingHide();
                 });
             },

@@ -1,7 +1,8 @@
 //  引入axios文件包
 import axios from 'axios'
 
-let productionurl = 'http://activitytest.hewa.cn/';
+// let productionurl = 'http://activitytest.hewa.cn/';
+let productionurl = 'https://uat.hewa.cn/';
 
 /* 跨域代理设置*/
 let pre_proxyurl = process.env.NODE_ENV === 'production' ? productionurl : '/apis/';
