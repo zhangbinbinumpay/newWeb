@@ -1,110 +1,303 @@
 <template>
   <div>
-    <div v-if="!onlyInput&&type!=='textarea'" class="input-view" :class="labelPosition==='top'?'':'flex_y_center'">
+    <div
+      v-if="!onlyInput && type !== 'textarea'"
+      class="input-view"
+      :class="labelPosition === 'top' ? '' : 'flex_y_center'"
+    >
       <p
-          :class="labelPosition==='right'?'txt-r':labelPosition==='left'?'txt-l':labelPosition==='center'?'txt-c':labelPosition==='top'?'txt-top':''">
+        :class="
+          labelPosition === 'right'
+            ? 'txt-r'
+            : labelPosition === 'left'
+            ? 'txt-l'
+            : labelPosition === 'center'
+            ? 'txt-c'
+            : labelPosition === 'top'
+            ? 'txt-top'
+            : ''
+        "
+      >
         {{ label }}
       </p>
-      <div :class="labelPosition==='top'?'w-100':''">
+      <div :class="labelPosition === 'top' ? 'w-100' : ''">
         <div style="display: flex;flex-direction: row">
-        <input v-if="type !=='tel' &&type !=='msgcode'&&inputBorder ==='all'" :style="inputStyle" @focus="getFocus"
-               @input="input"
-               v-model="data" :name="name" class="standard" :type="type===('text'||'email')?'text':type||'text'"
-               :disabled="disabled"
-               :placeholder="placeholder" @blur="input_blur"
-               :maxlength="type==='idcard'?'18':type==='password'?'16':type==='bankcard'?'19':maxlength"
-               :class="error&&mustFill?'error':error===false?'success':''"/>
-        <input v-if="type ==='tel'&&inputBorder ==='all'" :style="{inputStyle}" @focus="getFocus" @input="input"
-               v-model="data"
-               :name="name" class="standard" type="number" :disabled="disabled" :placeholder="placeholder"
-               @blur="input_blur"
-               maxlength="11" :class="error&&mustFill?'error':error===false?'success':''"/>
+          <input
+            v-if="type !== 'tel' && type !== 'msgcode' && inputBorder === 'all'"
+            :style="inputStyle"
+            @focus="getFocus"
+            @input="input"
+            v-model="data"
+            :name="name"
+            class="standard"
+            :type="type === ('text' || 'email') ? 'text' : type || 'text'"
+            :disabled="disabled"
+            :placeholder="placeholder"
+            @blur="input_blur"
+            :maxlength="
+              type === 'idcard'
+                ? '18'
+                : type === 'password'
+                ? '16'
+                : type === 'bankcard'
+                ? '19'
+                : maxlength
+            "
+            :class="
+              error && mustFill ? 'error' : error === false ? 'success' : ''
+            "
+          />
+          <input
+            v-if="type === 'tel' && inputBorder === 'all'"
+            :style="{ inputStyle }"
+            @focus="getFocus"
+            @input="input"
+            v-model="data"
+            :name="name"
+            class="standard"
+            type="number"
+            :disabled="disabled"
+            :placeholder="placeholder"
+            @blur="input_blur"
+            maxlength="11"
+            :class="
+              error && mustFill ? 'error' : error === false ? 'success' : ''
+            "
+          />
 
-        <div v-if="inputBorder ==='bottom'" class="rel">
-          <input v-if="type !=='tel' && type !=='msgcode'&& inputBorder ==='bottom'" :style="inputStyle"
-                 @focus="getFocus"
-                 @input="input" v-model="data" :name="name" class="standard-bottom"
-                 :type="type===('text'||'email')?'text':type||'text'"
-                 :disabled="disabled"
-                 :placeholder="placeholder" @blur="input_blur"
-                 :maxlength="type==='idcard'?'18':type==='password'?'16':type==='bankcard'?'19':maxlength"
-                 :class="error&&mustFill?'standard-bottom-error':error===false?'standard-bottom-success':''"/>
+          <div v-if="inputBorder === 'bottom'" class="rel">
+            <input
+              v-if="
+                type !== 'tel' && type !== 'msgcode' && inputBorder === 'bottom'
+              "
+              :style="inputStyle"
+              @focus="getFocus"
+              @input="input"
+              v-model="data"
+              :name="name"
+              class="standard-bottom"
+              :type="type === ('text' || 'email') ? 'text' : type || 'text'"
+              :disabled="disabled"
+              :placeholder="placeholder"
+              @blur="input_blur"
+              :maxlength="
+                type === 'idcard'
+                  ? '18'
+                  : type === 'password'
+                  ? '16'
+                  : type === 'bankcard'
+                  ? '19'
+                  : maxlength
+              "
+              :class="
+                error && mustFill
+                  ? 'standard-bottom-error'
+                  : error === false
+                  ? 'standard-bottom-success'
+                  : ''
+              "
+            />
 
-          <input v-if="type ==='tel'&&inputBorder ==='bottom'" :style="inputStyle" @focus="getFocus" @input="input"
-                 v-model="data"
-                 :name="name" class="standard-bottom" type="number" :disabled="disabled" :placeholder="placeholder"
-                 @blur="input_blur"
-                 maxlength="11"
-                 :class="error&&mustFill?'standard-bottom-error':error===false?'standard-bottom-success':''"/>
-          <label class="standard-bottom-line"
-                 :class="borderAnimation==='left'?'ani-left':borderAnimation==='center'?'ani-center':borderAnimation==='right'?'ani-right':''"></label>
-        </div>
+            <input
+              v-if="type === 'tel' && inputBorder === 'bottom'"
+              :style="inputStyle"
+              @focus="getFocus"
+              @input="input"
+              v-model="data"
+              :name="name"
+              class="standard-bottom"
+              type="number"
+              :disabled="disabled"
+              :placeholder="placeholder"
+              @blur="input_blur"
+              maxlength="11"
+              :class="
+                error && mustFill
+                  ? 'standard-bottom-error'
+                  : error === false
+                  ? 'standard-bottom-success'
+                  : ''
+              "
+            />
+            <label
+              class="standard-bottom-line"
+              :class="
+                borderAnimation === 'left'
+                  ? 'ani-left'
+                  : borderAnimation === 'center'
+                  ? 'ani-center'
+                  : borderAnimation === 'right'
+                  ? 'ani-right'
+                  : ''
+              "
+            ></label>
+          </div>
 
-        <div v-if="type === 'msgcode'&&inputBorder ==='all'" class="msgcode flex_y_center">
-          <input @input="input" @focus="getFocus" :name="name" class="standard" type="number" :disabled="disabled"
-                 :placeholder="placeholder" @blur="input_blur" maxlength="6"
-                 :class="error&&mustFill?'error':error===false?'success':''"/>
-          <p @click="getCode" :class="interval?'disabled':''">{{ codetext }}</p>
-        </div>
-        <p v-if="type === 'label'" class="default_label">{{ defaultValue }}</p>
-        <div
-            v-if="!disabledClear"
-            style=""
-        >
           <div
-              v-if="isClear"
-              class="clear-style"
-              @click="clearInputValue"
+            v-if="type === 'msgcode' && inputBorder === 'all'"
+            class="msgcode flex_y_center"
           >
-            <img
+            <input
+              @input="input"
+              @focus="getFocus"
+              :name="name"
+              class="standard"
+              type="number"
+              :disabled="disabled"
+              :placeholder="placeholder"
+              @blur="input_blur"
+              maxlength="6"
+              :class="
+                error && mustFill ? 'error' : error === false ? 'success' : ''
+              "
+            />
+            <p @click="getCode" :class="interval ? 'disabled' : ''">
+              {{ codetext }}
+            </p>
+          </div>
+          <p v-if="type === 'label'" class="default_label">
+            {{ defaultValue }}
+          </p>
+          <div v-if="!disabledClear" style="">
+            <div v-if="isClear" class="clear-style" @click="clearInputValue">
+              <img
                 style="width: 16px;height: 16px"
                 src="../../assets/images/close-circle@2x.png"
-            />
+              />
+            </div>
           </div>
-        </div>
         </div>
         <div class="error-tip" v-show="error && mustFill">{{ tipMsg }}</div>
       </div>
     </div>
     <!-- 单input -->
-    <div v-if="onlyInput&&type!=='textarea'">
+    <div v-if="onlyInput && type !== 'textarea'">
+      <input
+        v-if="type !== 'tel' && type !== 'msgcode' && inputBorder === 'all'"
+        :style="inputStyle"
+        @blur="input_blur"
+        @focus="getFocus"
+        @input="input"
+        :name="name"
+        v-model="data"
+        :disabled="disabled"
+        :type="type === ('text' || 'email') ? 'text' : type || 'text'"
+        class="standard"
+        :placeholder="placeholder"
+        :maxlength="
+          type === 'idcard'
+            ? '18'
+            : type === 'password'
+            ? '16'
+            : type == 'bankcard'
+            ? '19'
+            : maxlength
+        "
+        :class="error && mustFill ? 'error' : error == false ? 'success' : ''"
+      />
+      <input
+        v-if="type === 'tel' && inputBorder == 'all'"
+        :style="inputStyle"
+        @focus="getFocus"
+        @blur="input_blur"
+        @input="input"
+        :name="name"
+        v-model="data"
+        :disabled="disabled"
+        :type="type == ('text' || 'email') ? 'text' : type || 'text'"
+        class="standard"
+        :placeholder="placeholder"
+        maxlength="11"
+        :class="error && mustFill ? 'error' : error == false ? 'success' : ''"
+      />
 
-      <input v-if="type !=='tel'&&type !=='msgcode'&&inputBorder ==='all'" :style="inputStyle" @blur="input_blur"
-             @focus="getFocus" @input="input"
-             :name="name" v-model="data" :disabled="disabled" :type="type===('text'||'email')?'text':type||'text'"
-             class="standard"
-             :placeholder="placeholder"
-             :maxlength="type==='idcard'?'18':type==='password'?'16':type=='bankcard'?'19':maxlength"
-             :class="error&&mustFill?'error':error==false?'success':''"/>
-      <input v-if="type ==='tel'&&inputBorder =='all'" :style="inputStyle" @focus="getFocus" @blur="input_blur"
-             @input="input" :name="name"
-             v-model="data" :disabled="disabled" :type="type==('text'||'email')?'text':type||'text'" class="standard"
-             :placeholder="placeholder" maxlength="11" :class="error&&mustFill?'error':error==false?'success':''"/>
+      <div v-if="inputBorder === 'bottom'" class="rel">
+        <input
+          v-if="type != 'tel' && type != 'msgcode' && inputBorder == 'bottom'"
+          :style="inputStyle"
+          @focus="getFocus"
+          @input="input"
+          v-model="data"
+          :name="name"
+          class="standard-bottom"
+          :type="type == ('text' || 'email') ? 'text' : type || 'text'"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          @blur="input_blur"
+          :maxlength="
+            type == 'idcard'
+              ? '18'
+              : type == 'password'
+              ? '16'
+              : type == 'bankcard'
+              ? '19'
+              : maxlength
+          "
+          :class="
+            error && mustFill
+              ? 'standard-bottom-error'
+              : error == false
+              ? 'standard-bottom-success'
+              : ''
+          "
+        />
 
-      <div v-if="inputBorder ==='bottom'" class="rel">
-        <input v-if="type !='tel' && type !='msgcode'&& inputBorder =='bottom'" :style="inputStyle" @focus="getFocus"
-               @input="input" v-model="data" :name="name" class="standard-bottom"
-               :type="type==('text'||'email')?'text':type||'text'"
-               :disabled="disabled" :placeholder="placeholder" @blur="input_blur"
-               :maxlength="type=='idcard'?'18':type=='password'?'16':type=='bankcard'?'19':maxlength"
-               :class="error&&mustFill?'standard-bottom-error':error==false?'standard-bottom-success':''"/>
-
-        <input v-if="type =='tel'&&inputBorder =='bottom'" :style="inputStyle" @focus="getFocus" @input="input"
-               v-model="data"
-               :name="name" class="standard-bottom" type="number" :disabled="disabled" :placeholder="placeholder"
-               @blur="input_blur"
-               maxlength="11"
-               :class="error&&mustFill?'standard-bottom-error':error==false?'standard-bottom-success':''"/>
-        <label class="standard-bottom-line"
-               :class="borderAnimation=='left'?'ani-left':borderAnimation=='center'?'ani-center':borderAnimation=='right'?'ani-right':''"></label>
+        <input
+          v-if="type == 'tel' && inputBorder == 'bottom'"
+          :style="inputStyle"
+          @focus="getFocus"
+          @input="input"
+          v-model="data"
+          :name="name"
+          class="standard-bottom"
+          type="number"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          @blur="input_blur"
+          maxlength="11"
+          :class="
+            error && mustFill
+              ? 'standard-bottom-error'
+              : error == false
+              ? 'standard-bottom-success'
+              : ''
+          "
+        />
+        <label
+          class="standard-bottom-line"
+          :class="
+            borderAnimation == 'left'
+              ? 'ani-left'
+              : borderAnimation == 'center'
+              ? 'ani-center'
+              : borderAnimation == 'right'
+              ? 'ani-right'
+              : ''
+          "
+        ></label>
       </div>
 
-
-      <div v-if="type === 'msgcode'&&inputBorder ==='all'" class="msgcode flex_y_center">
-        <input @focus="getFocus" @input="input" :name="name" class="standard" type="number" :disabled="disabled"
-               :placeholder="placeholder" @blur="input_blur" maxlength="6"
-               :class="error&&mustFill?'error':error===false?'success':''"/>
-        <text @click="getCode" :class="interval?'disabled':''">{{ codetext }}</text>
+      <div
+        v-if="type === 'msgcode' && inputBorder === 'all'"
+        class="msgcode flex_y_center"
+      >
+        <input
+          @focus="getFocus"
+          @input="input"
+          :name="name"
+          class="standard"
+          type="number"
+          :disabled="disabled"
+          :placeholder="placeholder"
+          @blur="input_blur"
+          maxlength="6"
+          :class="
+            error && mustFill ? 'error' : error === false ? 'success' : ''
+          "
+        />
+        <text @click="getCode" :class="interval ? 'disabled' : ''">{{
+          codetext
+        }}</text>
       </div>
       <div class="error-tip" v-show="error && mustFill">{{ tipMsg }}</div>
     </div>
@@ -116,81 +309,83 @@ export default {
   name: 'uInput',
   props: {
     name: {
-      String
+      String,
     },
     onlyInput: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    inputBorder: { //输入框边线 默认全边线 可选参数 bottom | all | none
+    inputBorder: {
+      //输入框边线 默认全边线 可选参数 bottom | all | none
       type: String,
-      default: 'all'
+      default: 'all',
     },
     inputStyle: {
-      type: String
-    },
-    borderAnimation: { //输入框边线 入场动画 可选参数 left | center | right | none
       type: String,
-      default: 'left'
+    },
+    borderAnimation: {
+      //输入框边线 入场动画 可选参数 left | center | right | none
+      type: String,
+      default: 'left',
     },
     mustFill: {
       type: Boolean,
-      default: true
+      default: true,
     },
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     label: {
       type: String,
-      default: '输入框'
+      default: '输入框',
     },
     labelPosition: {
       type: String,
-      default: 'right'
+      default: 'right',
     },
     placeholder: {
       type: String,
-      default: null
+      default: null,
     },
     maxlength: {
       type: Number,
-      default: 70
+      default: 70,
     },
     value: {
-      default: ''
+      default: '',
     },
     codeText: {
       type: String,
-      default: '点击发送验证码'
+      default: '点击发送验证码',
     },
     countDown: {
       type: Number,
-      default: 60
+      default: 60,
     },
     send: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tlposition: {
       type: String,
-      default: 'top'
+      default: 'top',
     },
     height: {
       type: String,
-      default: ''
+      default: '',
     },
     defaultValue: {
-      type: String
+      type: String,
     },
     disabledClear: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -203,31 +398,31 @@ export default {
       codetext: this.codeText,
       currCountDown: this.countDown,
       interval: false,
-      isClear:false
+      isClear: false,
     }
   },
   created() {
     if (this.value) {
-      this.data = this.value;
+      this.data = this.value
     }
     if (this.codeText) {
-      this.codetext = this.codeText;
+      this.codetext = this.codeText
     }
     if (this.countDown) {
-      this.currCountDown = this.countDown;
+      this.currCountDown = this.countDown
     }
   },
   watch: {
     value(newV, oldV) {
-      this.data = newV;
-    }
+      this.data = newV
+    },
   },
   methods: {
     input_blur(e) {
       if (this.mustFill) {
         if (e.detail.value || e.currentTarget.value) {
           this.error = false
-          let input = e.detail.value || e.currentTarget.value;
+          let input = e.detail.value || e.currentTarget.value
           if (this.type === 'tel') {
             if (!this.mobile.test(input)) {
               this.tipMsg = '手机号格式不正确'
@@ -263,13 +458,13 @@ export default {
             }
           }
         } else {
-          this.tipMsg = this.placeholder || ""
+          this.tipMsg = this.placeholder || ''
           this.error = true
         }
         this.$emit('getValue', {
           el: e,
           value: e.detail.value || e.currentTarget.value,
-          status: !this.error
+          status: !this.error,
         })
       } else {
         this.$emit('getValue', {
@@ -279,52 +474,51 @@ export default {
       }
     },
     input(e) {
-      this.$emit('input', e.target.value);
-      this.isClear = this.isShowClear(e);
+      this.$emit('input', e.target.value)
+      this.isClear = this.isShowClear(e)
     },
     getFocus(e) {
       this.$emit('focus', {
         el: e,
-        value: e.target.value
-      });
+        value: e.target.value,
+      })
     },
     getCode() {
       if (this.send) {
         if (this.currCountDown === this.countDown && this.interval === false) {
-          this.interval = true;
-          this.countDownFun();
-          this.$emit("counting", null);
+          this.interval = true
+          this.countDownFun()
+          this.$emit('counting', null)
         }
       }
     },
     countDownFun() {
-      const _this = this;
-      let timer = setInterval(function () {
+      const _this = this
+      let timer = setInterval(function() {
         if (_this.currCountDown <= 0) {
           _this.codetext = _this.codeText
           _this.currCountDown = _this.countDown
           _this.interval = false
-          clearInterval(timer);
-          return;
+          clearInterval(timer)
+          return
         } else {
           _this.interval = true
-          _this.codetext = "重新获取(" + _this.currCountDown + ")"
-          _this.currCountDown--;
+          _this.codetext = '重新获取(' + _this.currCountDown + ')'
+          _this.currCountDown--
         }
-      }, 1000);
+      }, 1000)
     },
-    isShowClear (e) {
-      let input = e.detail.value || e.currentTarget.value;
+    isShowClear(e) {
+      let input = e.detail.value || e.currentTarget.value
 
-      return input.length !== 0;
+      return input.length !== 0
     },
     clearInputValue() {
-      this.isClear = false;
-      this.data = '';
-      this.$emit('inputclear',{clear:''})
-
+      this.isClear = false
+      this.data = ''
+      this.$emit('inputclear', { clear: '' })
     },
-  }
+  },
 }
 </script>
 
@@ -357,12 +551,12 @@ export default {
   border: 1px solid #c0c0c0;
   width: 100%;
   padding: 0 10px;
-  height: 20px;
-  border-radius: 4px;
-  transition: all .3s;
+  height: 18px;
+  border-radius: 2px;
+  transition: all 0.3s;
   /*line-height: 70px;*/
   color: #707070;
-  font-size: 8px;
+  font-size: 6px;
   box-sizing: border-box;
 }
 
@@ -378,13 +572,13 @@ export default {
   font-size: 8px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
-  color: #004F63;
+  color: #004f63;
   line-height: 11px;
 }
 
 .txt-l {
   text-align: left;
-  color: #0A5669;
+  color: #0a5669;
   font-size: 10px;
   width: 60px;
 }
@@ -406,7 +600,6 @@ export default {
   border: 2.1739px solid #008000 !important;
 }
 
-
 .standard-bottom {
   border: none;
   /* border-bottom: 1px solid #c0c0c0; */
@@ -414,7 +607,7 @@ export default {
   padding: 0 10px 0 1px;
   /*font-size: 28px;*/
   height: 30px;
-  transition: all .5s;
+  transition: all 0.5s;
   line-height: 70px;
   color: #707070;
   box-sizing: border-box;
@@ -445,7 +638,6 @@ export default {
   animation: left 1.5s;
 }
 
-
 @keyframes left {
   0% {
     background-color: #c0c0c0;
@@ -472,7 +664,6 @@ export default {
   }
 }
 
-
 .standard-bottom-error {
   border-bottom: 1px solid #ad1212 !important;
 }
@@ -481,12 +672,12 @@ export default {
   border-bottom: 1px solid #008000 !important;
 }
 
-
 .error-tip {
-  font-size: 8px;
+  font-size: 6px;
   color: #de0000;
   text-align: right;
-  height: 20px;
+  height: 18px;
+  position: absolute;
   /*position: absolute;*/
 }
 
@@ -513,14 +704,14 @@ export default {
 .msgcode > p {
   font-size: 6px;
   position: absolute;
-  right: 21.7391px;
-  color: #14AEAB;
-  border-left: 1px solid #ECECEC;
+  right: 5px;
+  color: #14aeab;
+  border-left: 1px solid #ececec;
   padding-left: 21.7391px;
 }
 
 .disabled {
-  color: #c1c1c1 !important
+  color: #c1c1c1 !important;
 }
 
 .btn {
@@ -531,7 +722,7 @@ export default {
 }
 
 .btn:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .rel {
@@ -632,7 +823,7 @@ export default {
   display: flex;
   flex-direction: column-reverse;
 }
-.clear-style{
+.clear-style {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -649,7 +840,14 @@ export default {
   /*font-size: 8px;*/
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
-  color: #14AEAB;
+  color: #14aeab;
   line-height: 9px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 </style>
