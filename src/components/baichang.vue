@@ -34,13 +34,13 @@
       </div>
     </div>
     <div  class="group3 flex-col">
-      <div v-if="rankList.length" class="block1 flex-col">
+      <div v-if="useIsLogin" class="block1 flex-col">
         <span class="word1">精英排行榜</span>
       </div>
       <img class="xingqiu" src="../assets/images/xingqiu@2x.png"/>
 
       <!--      精英排行榜-->
-      <div v-if="rankList.length" class="section3 flex-col">
+      <div v-if="useIsLogin" class="section3 flex-col">
         <!--精英排行榜-->
         <div class="block3 flex-row">
           <div class="mod2 flex-row">
@@ -145,7 +145,7 @@
         name: 'baichang',
         data() {
             return {
-                useIsLogin: true,
+                useIsLogin: false,
                 zoneList: [],
                 rankList: [],
                 rewardInfos: [
@@ -204,7 +204,10 @@
                     this.$g_loadingHide();
                     let bodyData = res.data;
                     if (bodyData) {
-                        this.useIsLogin = true;
+                        if (bodyData.status){
+                            this.useIsLogin = bodyData.status.code === 200;
+                        }
+
                         let responseData = bodyData.data;
                         if (responseData.latestBonus) {
                             //顶部轮播图
@@ -298,7 +301,8 @@
     width: 100vw;
     left: 0;
     top: 0;
-    align-items: center
+    align-items: center;
+    position: relative;
   }
 
   .main6 {
@@ -307,9 +311,7 @@
     border-radius: 26px;
     background-color: rgba(7, 55, 221, 1);
     width: 47.97vw;
-    //justify-content: center;
-    //align-items: center;
-    margin-top: 36.2%;
+    margin-top: 259px;
     margin-left: 20px;
   }
 
@@ -326,6 +328,7 @@
   .box1 {
     z-index: 145;
     height: 2.3vw;
+    position: absolute;
     border-radius: 22px;
     background-color: rgba(255, 234, 19, 1);
     width: 249px;
@@ -333,7 +336,9 @@
     align-items: flex-end;
     /*padding-right: 1.72vw;*/
     margin-left: 26px;
-    margin-top: 8px;
+    margin-top: 313px;
+    top: 2px;
+    left: 220px;
   }
 
   .word25 {
@@ -676,11 +681,12 @@
     align-items: center;
     /*width: 60%;*/
     width: 469px;
-    height: 259px;
+    /*height: 259px;*/
     background-color: #2B36A3;
     margin-top: 20px;
     display: flex;
     margin-bottom: 30px;
+    /*overflow: scroll;*/
   }
 
   .ruleInfo {
@@ -721,7 +727,7 @@
         white-space: nowrap;
         padding: 0 20px;
         list-style: none;
-        //line-height: 40px;
+        line-height: 20px;
         text-align: center;
         color: #fff;
         font-size: 12px;

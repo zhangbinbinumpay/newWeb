@@ -42,7 +42,9 @@
                         } else if (openStatus === 1) {
                             this.$router.push({name: 'confirm', params: this.userData})
                         } else if (openStatus === 2) {
-                            this.$g_toast("未绑定活动");
+                            // this.$g_toast("未绑定活动");
+                            this.userData['openStatus'] = '2';
+                            this.$router.push({name: 'guide', params: this.userData})
                         }
                     } else {
                         //此处认为是有异常

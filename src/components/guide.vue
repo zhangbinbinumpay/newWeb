@@ -101,6 +101,9 @@ export default {
           this.isUserDataValid = false;
           this.$g_toast('小蛙发现你暂不具备活动资格哦~');
       }
+      if (this.$route.params && this.$route.params.openStatus){
+          this.isUserDataValid = this.$route.params.openStatus !== '2';
+      }
   },
   // created() {
   //
