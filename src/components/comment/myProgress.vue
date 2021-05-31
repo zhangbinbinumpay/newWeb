@@ -130,7 +130,7 @@ export default {
       position: absolute;
       margin-top: -20px;
       font-size: 12px;
-      margin-left: 16px;
+      margin-left: 26px;
     }
 
     &-striped {
