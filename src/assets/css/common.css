@@ -24,3 +24,9 @@ button:active {
     display: flex;
     flex-direction: row;
 }
+
+.el-tooltip__popper{
+    max-width: 300px; /*修改宽度*/
+    font-size: 4px;
+    line-height: 5%;
+}

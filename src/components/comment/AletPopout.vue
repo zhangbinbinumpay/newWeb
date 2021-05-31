@@ -39,7 +39,7 @@ export default {
 .popout {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  /*background-color: rgba(0, 0, 0, 0.5);*/
   position: fixed;
   left: 0;
   top: 0;
@@ -50,6 +50,7 @@ export default {
 }
 
 .popout_close {
+  z-index: 8;
   height: 20px;
   width: 100%;
   display: flex;
@@ -65,7 +66,7 @@ export default {
 
 .popout_box {
   width: 273px;
-  height: 156px;
+  height: 136px;
   background-color: #262626;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -75,11 +76,14 @@ export default {
   align-items: center;
   flex-direction: column;
   border-radius: 6px;
+  /*opacity: 0.85;*/
   /*justify-content: center;*/
 }
 .content_main{
-  width: 273px;
-  height: 100%;
+  width: 223px;
+  height: 136px;
+  /*margin-top: 30px;*/
+  position: absolute;
   background-color: #262626;
   background-repeat: no-repeat;
   background-size: 100% 100%;
