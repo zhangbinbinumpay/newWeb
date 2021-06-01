@@ -1,7 +1,7 @@
 <template>
   <div class="hello_guide">
     <img
-      style="max-width: 100%;max-height: 100%;"
+      style="max-width: 100%;max-height: 100%;width:100%;height:100%"
       src="../assets/images/yemian1.png"
     />
 
