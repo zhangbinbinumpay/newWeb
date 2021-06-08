@@ -4,6 +4,8 @@ import guide from '../components/guide'
 import confirm from "../components/confirm";
 import home from "../components/home";
 import baichang from "../components/baichang";
+import escorts from "../components/escorts";
+
 
 Vue.use(Router)
 
@@ -11,11 +13,11 @@ export default new Router({
     mode: 'hash',//history、hash
     base: 'exclusive',
     routes: [
-        {path: '/', redirect: 'home'},
+        {path: '/', redirect: 'escorts'},
         {
-            path: '/home',
-            name: 'home',
-            component: home
+           path: '/escorts',
+           name: 'escorts',
+           component:escorts
         },
         {
             path: '/guide',
@@ -31,6 +33,11 @@ export default new Router({
             path: '/baichang',
             name: 'baichang',
             component: baichang
+        },
+        {
+            path: '/escorts',
+            name: 'escorts',
+            component:escorts
         }
     ]
 })

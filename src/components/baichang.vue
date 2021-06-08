@@ -204,6 +204,12 @@ export default {
     this.home();
     //开启定时
     this.timer = setInterval(this.scrollAnimate, 3000);
+    //增加埋点
+    window.zhuge.track('PC_B_login_pagepv');
+    // window.zhuge.track('PC_B_logoin_position_c',{
+    //     'p_name':'',
+    //     'p_position':'1',
+    // })
   },
   methods: {
     home() {

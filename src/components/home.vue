@@ -48,7 +48,7 @@
                         }
                     } else {
                         //此处认为是有异常
-                        this.$router.push({name: 'guide', params: this.userData})
+                        this.$router.push({name: 'escorts', params: this.userData})
                         // this.$router.push({name: 'confirm', params: this.userData})
                     }
 

@@ -14,7 +14,7 @@ module.exports = {
         proxyTable: proxyConfig.proxy,
 
         // Various Dev Server settings
-        host: 'localhost', // can be overwritten by process.env.HOST
+        host: '10.98.21.9', // can be overwritten by process.env.HOST
         port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,
         errorOverlay: true,
@@ -39,12 +39,12 @@ module.exports = {
 
     build: {
         // Template for index.html
-        index: path.resolve(__dirname, '../exclusive/index.html'),
+        index: path.resolve(__dirname, '../newWeb/index.html'),
 
         // Paths
-        assetsRoot: path.resolve(__dirname, '../exclusive'),
+        assetsRoot: path.resolve(__dirname, '../newWeb'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: '/exclusive/',
+        assetsPublicPath: '/newWeb/',
 
         /**
          * Source Maps

@@ -55,11 +55,11 @@
 //         doc.addEventListener("DOMContentLoaded", function(e) {
 //             doc.body.style.fontSize = "16px";
 //         }, false);
-//     }
-// };
+/*     }
+ };
+ */
 
-
-
+/* 
 // 基准大小
 const baseSize = 16
 // 设置 rem 函数
@@ -69,6 +69,8 @@ function setRem () {
     // 设置页面根节点字体大小
     // document.documentElement.style.fontSize = (baseSize * Math.min(scale, 2)) + 'px'
     document.documentElement.style.fontSize = (baseSize * scale) + 'px'
+	
+	
 }
 // 初始化
 setRem()
@@ -76,3 +78,4 @@ setRem()
 window.onresize = function () {
     setRem()
 }
+ */
