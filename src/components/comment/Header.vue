@@ -20,7 +20,7 @@
               class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
             <h1 class="logo hvr-bounce-in">
               <a href="/" title="KivenBen's博客">
-                <img src="../../assets/images/logo.png" alt="KivenBen's博客" height="50" width="180">
+              
               </a>
             </h1>
           </div>
@@ -57,10 +57,10 @@
       }
     },
     mounted() {
-      this.category();
+      //this.category();
     },
     methods: {
-      category() {
+    /*  category() {
         this.$axios.get("/api/font/home/category").then(res => {
           if (res.status) {
             this.categories = res.data.data;
@@ -72,7 +72,7 @@
       },
       goLabel() {
         this.$router.push({path: "/label"});
-      },
+      }, */
     },
     watch: {
       '$route' (to, from) {

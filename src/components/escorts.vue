@@ -164,6 +164,19 @@
 
 	export default {
 		name: 'guide',
+		metaInfo:{
+			title:"dfdfdf",
+		     meta:[
+		       {
+		         name:'keywords',
+		         content:'sdssd'
+		       },
+		       {
+		         name:'discription',
+		         content:'sdsds'
+		       }
+		     ]
+		   },
 		props: {
 			/*活动是否开启开关*/
 			activeButtonState: {
